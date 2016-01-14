@@ -99,13 +99,19 @@ a {
   text-decoration: off;
 }
 
-.page {
-  background: red;
+a.disabled{
+	pointer-events:none;
 }
 
-.splash {
-  text-align: center;
-  vertical-align: center;
-  font-size: 50px;
-  color: darkgrey;
+.page {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+#main{
+	text-align: center;
+	font-size: 50px;
+	color: darkgrey;
+	vertical-align: center;
 }

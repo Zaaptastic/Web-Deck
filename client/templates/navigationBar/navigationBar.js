@@ -4,6 +4,7 @@ var navBoxWidth = function(){
 };
 
 var initMenu = function(n){
+	console.log("Initalizing menu")
 	flag = false;
 	var width = 100/n; 
 	i = 0;
@@ -12,11 +13,42 @@ var initMenu = function(n){
 		//$(this).addClass('minimized');
 		i++;
 	});
+	//Adjust menu to appropriate center button relative to current URL path
+	var currentURL = window.location.pathname;
+	var currentElem = $('a[href="'+currentURL+'"]');
+	console.log(currentURL);
+	if (currentURL !== '/'){
+		flag = true; //switch flag so that we know an animation is taking place
+		//Disable links while animating
+		var links = document.getElementsByTagName('a');
+		for (var i=0;i<links.length;i++){
+		var current = $(links[i]);
+		   	current.addClass('disabled');
+		}
+		var distance = countPositions(currentElem);
+		console.log('index is '+distance);
+		$('.nav-block.active').removeClass('active');
+		$(currentElem).addClass('active');
+		slideMenu(distance,true); //make sliding instant
+	}
 };
 
-var slideMenu = function(index){
+var slideMenu = function(index, instant = false){
+		var durationTime = 600;
+		if (instant)
+			durationTime = 0;
 		var width = navBoxWidth();
-	 	if (index<0) { //if clicked on the left side of the screen
+		if (index === 0){
+			//Catches case in which the menu should not slide
+			flag = false;
+			var links = document.getElementsByTagName('a');
+		    for (var i=0;i<links.length;i++){
+		    	var current = $(links[i]);
+		    	current.removeClass('disabled');
+		    }
+			console.log("Sliding finished with flag as " + flag);			
+
+		}else if (index<0) { //if clicked on the left side of the screen
 	    	var currentBox = $('.nav-block:visible:last');
 	    	for (count = Math.abs(index);count > 0; count -= 1){
 		    //clone the last nav-block and insert it before the first
@@ -33,8 +65,8 @@ var slideMenu = function(index){
 		        	left:'+='+width*Math.abs(index)
 		     	},
 		     	{
-			        delay: 500,
-			        duration:600,
+			        delay: 0,
+			        duration:durationTime,
 			        easing:"easeInQuad",
 			        complete: function() {
 			          for (count = 0; count < Math.abs(index); count += 1){
@@ -42,6 +74,13 @@ var slideMenu = function(index){
 			          }
 			          //Switches flag back to false so that the next click can be properly executed
 			          flag = false;
+			          //Re-enable clicking
+
+		    		var links = document.getElementsByTagName('a');
+		    		for (var i=0;i<links.length;i++){
+		    			var current = $(links[i]);
+		    			current.removeClass('disabled');
+		    		}
 			          console.log("Sliding finished with flag as " + flag);
 
 		        	}
@@ -62,7 +101,7 @@ var slideMenu = function(index){
 	     	},
 	     	{
 		        delay:0,
-		        duration:600,
+		        duration:durationTime,
 		        easing:"easeInQuad", 
 		        complete: function() { //move the copied div before animation
 		          for (count = 0; count < Math.abs(index); count += 1){
@@ -70,6 +109,13 @@ var slideMenu = function(index){
 		          }
 		          //Switches flag back to false so that the next click can be properly executed
 		          flag = false;
+		          //Re-enable clicking
+
+	    		var links = document.getElementsByTagName('a');
+	    		for (var i=0;i<links.length;i++){
+	    			var current = $(links[i]);
+	    			current.removeClass('disabled');
+	    		}
 		          console.log("Sliding finished with flag as " + flag);
 		        }
 	     	});
@@ -81,15 +127,32 @@ var countPositions = function(elem) {//finds and returns the distance between th
  		return value;
 };
 
+var slidePage = function(index, link){
+	console.log("Sliding page to "+link + " with index of " + index);
+	if (index < 0){
+		//Slide from left to right
+
+	}else if (index > 0){
+		//Slide from right to left
+	}
+};
+
 var watchClick = function() {//watches clicks on the nav-blocks elements
   		$(document).on('click', '.nav-block', function(){
 	    	if (!flag){ //if there is no ongoing animation
 	    		flag = true; //switch flag so that we know an animation is taking place
+	    		//Disable links while animating
+	    		var links = document.getElementsByTagName('a');
+	    		for (var i=0;i<links.length;i++){
+	    			var current = $(links[i]);
+	    			current.addClass('disabled');
+	    		}
 	    		var distance = countPositions(this);
 	     		console.log('index is '+distance);
 	     		$('.nav-block.active').removeClass('active');
 	     		$(this).addClass('active');
 	     		slideMenu(distance);
+	     		slidePage(distance, this.href);
 	   		}else{
 	      		console.log("Attempted to slide before animation completed");
 	   		}
