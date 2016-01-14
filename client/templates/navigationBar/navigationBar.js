@@ -40,6 +40,7 @@ var slideMenu = function(index, instant = false){
 		var width = navBoxWidth();
 		if (index === 0){
 			//Catches case in which the menu should not slide
+			//Must still set flag to false to allow further sliding and re-enable links
 			flag = false;
 			var links = document.getElementsByTagName('a');
 		    for (var i=0;i<links.length;i++){
@@ -57,7 +58,6 @@ var slideMenu = function(index, instant = false){
 		      var clonedLeft = parseFloat(nextLeft,10) - navBoxWidth(); //calculate the left property of the cloned box
 		      $(cloned).css({"left":clonedLeft}); //apply the css left
 		      currentBox = currentBox.prev();
-		      
 		    }
 		    //slide the number of positions of the index
 		    $('.nav-block').velocity(
@@ -162,9 +162,10 @@ var watchClick = function() {//watches clicks on the nav-blocks elements
 };
 
 var watchHover = function() {//watches hover on menu to expand/contract
-	$('nav').hover(
+	$('nav').mouseenter(
 		function(){
-			$('.nav-block').velocity(
+			console.log("beginning slide up");
+			$('nav').velocity(
 				{
 			       	height: "200px",
 			    },
@@ -176,13 +177,14 @@ var watchHover = function() {//watches hover on menu to expand/contract
 						$('.nav-block h2').css({
 							"visibility":"visible",
 						});
+						console.log("completed slide up")
 			        }
 		     	}
 			);
-			console.log("finished sliding up");
-		}, 
+		}).mouseleave( 
 		function(){
-			$('.nav-block').velocity(
+			console.log("beginning slide down");
+			$('nav').velocity(
 				{
 		        	height: "50px",
 		     	},
@@ -194,10 +196,10 @@ var watchHover = function() {//watches hover on menu to expand/contract
 						$('.nav-block h2').css({
 							"visibility":"hidden",
 						});
+						console.log("completed slide down");
 			        }
 		     	}
 			);
-			console.log("finished sliding down");
 		}
 	);
 };

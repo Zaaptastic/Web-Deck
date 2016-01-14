@@ -50,11 +50,12 @@ html,body,nav{
 nav {
   position:fixed;
   bottom:0;
+  height: 50px;
 }
 
 nav .nav-block{
     text-align:center;
-    height:50px;
+    height:100%;
     position:absolute;
     bottom:0;
     box-sizing: border-box;
