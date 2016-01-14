@@ -95,30 +95,30 @@ var slideMenu = function(index, instant = false){
 		     	$(cloned).css({"left":clonedLeft}); //apply the css left
 		     	currentBox = currentBox.next();
 	    	} 
-	    $('.nav-block').velocity(
-	     	{
-	        	left:'-='+width*Math.abs(index)
-	     	},
-	     	{
-		        delay:0,
-		        duration:durationTime,
-		        easing:"easeInQuad", 
-		        complete: function() { //move the copied div before animation
-		          for (count = 0; count < Math.abs(index); count += 1){
-		            $('.nav-block:visible:first').remove();
-		          }
-		          //Switches flag back to false so that the next click can be properly executed
-		          flag = false;
-		          //Re-enable clicking
+		    $('.nav-block').velocity(
+		     	{
+		        	left:'-='+width*Math.abs(index)
+		     	},
+		     	{
+			        delay:0,
+			        duration:durationTime,
+			        easing:"easeInQuad", 
+			        complete: function() { //move the copied div before animation
+			          for (count = 0; count < Math.abs(index); count += 1){
+			            $('.nav-block:visible:first').remove();
+			          }
+			          //Switches flag back to false so that the next click can be properly executed
+			          flag = false;
+			          //Re-enable clicking
 
-	    		var links = document.getElementsByTagName('a');
-	    		for (var i=0;i<links.length;i++){
-	    			var current = $(links[i]);
-	    			current.removeClass('disabled');
-	    		}
-		          console.log("Sliding finished with flag as " + flag);
-		        }
-	     	});
+		    		var links = document.getElementsByTagName('a');
+		    		for (var i=0;i<links.length;i++){
+		    			var current = $(links[i]);
+		    			current.removeClass('disabled');
+		    		}
+			          console.log("Sliding finished with flag as " + flag);
+			        }
+		     	});
 		}
 };
 
@@ -161,11 +161,53 @@ var watchClick = function() {//watches clicks on the nav-blocks elements
 
 };
 
+var watchHover = function() {//watches hover on menu to expand/contract
+	$('nav').hover(
+		function(){
+			$('.nav-block').velocity(
+				{
+			       	height: "200px",
+			    },
+			    {
+				    delay:0,
+				    duration:200,
+			        easing:"easeInQuad", 
+			        complete: function() { 
+						$('.nav-block h2').css({
+							"visibility":"visible",
+						});
+			        }
+		     	}
+			);
+			console.log("finished sliding up");
+		}, 
+		function(){
+			$('.nav-block').velocity(
+				{
+		        	height: "50px",
+		     	},
+		     	{
+			        delay:0,
+			        duration:200,
+			        easing:"easeOutQuad", 
+			        complete: function() { 	        	
+						$('.nav-block h2').css({
+							"visibility":"hidden",
+						});
+			        }
+		     	}
+			);
+			console.log("finished sliding down");
+		}
+	);
+};
+
 
 
 Template.navigationBar.onRendered(function () {
 	  initMenu(5);
 	  watchClick();
+	  watchHover();
 	  $( window ).resize(function() {
 	  initMenu(5);
 	  });  

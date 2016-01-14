@@ -79,15 +79,6 @@ nav .nav-block.active {
   visibility: hidden;
 }
 
-nav:hover .nav-block{
-  height: 200px;
-  transition: height 300ms;
-}
-
-nav:hover .nav-block h2{
-  visibility: visible;
-}
-
 
 .vcenter {
     position: relative;
@@ -96,7 +87,7 @@ nav:hover .nav-block h2{
 }
 
 a {
-  text-decoration: off;
+  text-decoration: none;
 }
 
 a.disabled{
