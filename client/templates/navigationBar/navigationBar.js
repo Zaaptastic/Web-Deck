@@ -85,7 +85,7 @@ var watchClick = function() {//watches clicks on the nav-blocks elements
   		$(document).on('click', '.nav-block', function(){
 	    	if (!flag){ //if there is no ongoing animation
 	    		flag = true; //switch flag so that we know an animation is taking place
-	    		var distance=countPositions(this);
+	    		var distance = countPositions(this);
 	     		console.log('index is '+distance);
 	     		$('.nav-block.active').removeClass('active');
 	     		$(this).addClass('active');

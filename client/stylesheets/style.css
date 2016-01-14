@@ -52,7 +52,7 @@ nav {
   bottom:0;
 }
 
-nav div.nav-block{
+nav .nav-block{
     text-align:center;
     height:50px;
     position:absolute;
@@ -65,25 +65,26 @@ nav div.nav-block{
     transition: border 400ms ease-in;
     transition: height 300ms;
 }
-nav div.nav-block:hover{
+nav .nav-block:hover{
     border: 3px solid grey;
 }
-nav div.nav-block.active {
+nav .nav-block.active {
     border: 3px solid black;
     transition: border 600ms ease-in;
     transition: height 300ms;
 }
 
+
 .vcenter h2{
   visibility: hidden;
 }
 
-nav:hover div.nav-block{
+nav:hover .nav-block{
   height: 200px;
   transition: height 300ms;
 }
 
-nav:hover div.nav-block h2{
+nav:hover .nav-block h2{
   visibility: visible;
 }
 
@@ -94,6 +95,17 @@ nav:hover div.nav-block h2{
     transform: translateY(-50%);
 }
 
+a {
+  text-decoration: off;
+}
+
 .page {
   background: red;
+}
+
+.splash {
+  text-align: center;
+  vertical-align: center;
+  font-size: 50px;
+  color: darkgrey;
 }
