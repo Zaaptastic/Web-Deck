@@ -107,3 +107,29 @@ a.disabled{
 	color: darkgrey;
 	vertical-align: center;
 }
+
+.openingFrameContainer {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+.openingFrame{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+  transform: translateY(-75%);
+  transform: translateX(-50%);
+}
+
+#skip{
+	font-size: 20px;
+	position: absolute;
+	top: 60%;
+	left: 50%;
+  transform: translateY(-75%);
+  transform: translateX(-50%);
+}
+
+
+
