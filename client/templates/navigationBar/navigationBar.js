@@ -1,9 +1,9 @@
 
-var navBoxWidth = function(){
+navBoxWidth = function(){
  	return $('.nav-block').outerWidth(true);
 };
 
-var initMenu = function(n,resize=false){
+initMenu = function(n,resize=false){
 	/*
 		Initializes menu by properly positioning and sizing them, as well as re-centering
 		if applicable (should not be done when resizing window)
@@ -50,13 +50,11 @@ var initMenu = function(n,resize=false){
 			$(first).addClass('active');
 			slideMenu(distance,true);
 			splashMain();
-			//$('nav').css("height","200px");
-			//$('.nav-block h2').css("visibility","visible");
 		}
 	}
 };
 
-var slideMenu = function(index, instant = false){
+slideMenu = function(index, instant = false){
 	/*
 		Slides menu by a certain number of index positions, with the option of doing so
 		over a duration (default 600) or instantly, which is useful in initMenu to create
@@ -78,6 +76,7 @@ var slideMenu = function(index, instant = false){
 			console.log("Sliding finished with flag as " + flag);			
 
 		}else if (index<0) { //if clicked on the left side of the screen
+			Session.set("direction","leftToRight"); //set Session var for page transition
 	    	var currentBox = $('.nav-block:visible:last');
 	    	for (count = Math.abs(index);count > 0; count -= 1){
 		    //clone the last nav-block and insert it before the first
@@ -115,6 +114,7 @@ var slideMenu = function(index, instant = false){
 		     	});
 	    }else if (index>0) {
 	    	//For sliding in the opposite direction
+	    	Session.set("direction","rightToLeft");
 	    	var currentBox = $('.nav-block:visible:first');
 	    	for (count = Math.abs(index); count > 0; count -= 1){
 		     	//clone the first nav-block and insert it after the last
@@ -151,13 +151,13 @@ var slideMenu = function(index, instant = false){
 		}
 };
 
-var countPositions = function(elem) {//finds and returns the distance between the active item and the clicked item
+countPositions = function(elem) {//finds and returns the distance between the active item and the clicked item
  		var value = $(elem).index() - $('.nav-block.active').index();
  		return value;
 };
 
 
-var watchClick = function() {//watches clicks on the nav-blocks elements
+watchClick = function() {//watches clicks on the nav-blocks elements
   		$(document).on('click', '.nav-block', function(){
 	    	if (!flag){ //if there is no ongoing animation
 	    		flag = true; //switch flag so that we know an animation is taking place
@@ -180,7 +180,7 @@ var watchClick = function() {//watches clicks on the nav-blocks elements
 
 };
 
-var watchHover = function() {//watches hover on menu to expand/contract
+watchHover = function() {//watches hover on menu to expand/contract
 
 	$('nav').mouseenter(
 		function(){
@@ -194,7 +194,7 @@ var watchHover = function() {//watches hover on menu to expand/contract
 			        easing:"easeInQuad", 
 			        complete: function() { 
 						$('.nav-block h2').css({
-							"visibility":"visible",
+							opacity:1,
 						});
 			        }
 		     	}
@@ -211,7 +211,7 @@ var watchHover = function() {//watches hover on menu to expand/contract
 			        easing:"easeOutQuad", 
 			        complete: function() { 	        	
 						$('.nav-block h2').css({
-							"visibility":"hidden",
+							opacity:0,
 						});
 			        }
 		     	}
@@ -228,4 +228,5 @@ Template.navigationBar.onRendered(function () {
 	  initMenu(5,true);
 	  });  
 });
+
 

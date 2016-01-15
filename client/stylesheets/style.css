@@ -120,7 +120,7 @@ a.disabled{
 	left: 50%;
   transform: translateY(-50%);
   transform: translateX(-50%);
-  visibility: none;
+  opacity: 0;
 }
 
 #skip{
@@ -130,11 +130,11 @@ a.disabled{
 	left: 50%;
   transform: translateY(-50%);
   transform: translateX(-50%);
-  visibility: none;
+  opacity:0;
 }
 
 #third{
-	visibility: visible;
+	opacity:1;
 }
 
 #replay{

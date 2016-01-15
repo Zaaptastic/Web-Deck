@@ -15,6 +15,9 @@ var hideMenu = function(){
 		opacity:0,
 		scale:0,
 	});
+	$('.nav-block h2').css({
+		opacity:0,
+	})
 	$('.openingFrame').css({
 		opacity:0,
 		scale:0
@@ -72,6 +75,7 @@ var replay = function(){
 		and restarts the opening sequence
 	*/
 	$('#replay').click(function(){
+		$('.nav-block h2').css("visibility","visible");
 		hideMenu();
 		loadSequence();
 	});
