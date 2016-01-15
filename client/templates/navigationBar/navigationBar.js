@@ -50,6 +50,8 @@ var initMenu = function(n,resize=false){
 			$(first).addClass('active');
 			slideMenu(distance,true);
 			splashMain();
+			//$('nav').css("height","200px");
+			//$('.nav-block h2').css("visibility","visible");
 		}
 	}
 };
@@ -170,7 +172,6 @@ var watchClick = function() {//watches clicks on the nav-blocks elements
 	     		$('.nav-block.active').removeClass('active');
 	     		$(this).addClass('active');
 	     		slideMenu(distance);
-	     		slidePage(distance, this.href);
 	   		}else{
 	      		console.log("Attempted to slide before animation completed");
 	   		}
@@ -180,6 +181,7 @@ var watchClick = function() {//watches clicks on the nav-blocks elements
 };
 
 var watchHover = function() {//watches hover on menu to expand/contract
+
 	$('nav').mouseenter(
 		function(){
 			$('nav').velocity(

@@ -77,7 +77,7 @@ nav .nav-block.active {
 
 
 .vcenter h2{
-  visibility: hidden;
+  opacity: 0;
 }
 
 
@@ -116,19 +116,25 @@ a.disabled{
 
 .openingFrame{
 	position: absolute;
-	top: 50%;
+	top: 40%;
 	left: 50%;
-  transform: translateY(-75%);
+  transform: translateY(-50%);
   transform: translateX(-50%);
+  visibility: none;
 }
 
 #skip{
 	font-size: 20px;
 	position: absolute;
-	top: 60%;
+	top: 50%;
 	left: 50%;
-  transform: translateY(-75%);
+  transform: translateY(-50%);
   transform: translateX(-50%);
+  visibility: none;
+}
+
+#third{
+	visibility: visible;
 }
 
 #replay{

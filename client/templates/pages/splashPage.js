@@ -39,6 +39,12 @@ var skip = function(){
 
 		loadingSequence = [
 			{
+				e: $('nav'), p: { height: "200px" }, o: { duration : 0 }
+			},
+			{
+				e: $('.nav-block h2'), p: { opacity: 1 }, o: { duration : 0 }
+			},
+			{
 				e: $('#skip'), p: { opacity: 0 }, o: { duration: 0 }
 			},
 			{
@@ -48,10 +54,10 @@ var skip = function(){
 				e: $('.nav-block.active'), p:{ opacity: 1, scale: 1 }, o: { duration: 2000 }
 			},
 			{
-				e: $('.nav-block'), p:{ opacity: 1, scale: 1 }, o: { duration: 1000 }
+				e: $('.nav-block'), p:{ opacity: 1, scale: 1 }, o: { duration: 1500 }
 			},
 			{
-				e: $('#replay'), p: { opacity: 1, scale: 1}, o: {duration: 1000}
+				e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000}
 			}
 		];
 
@@ -90,6 +96,12 @@ var loadSequence = function(){
 
 	// Create the array of Velocity calls
    loadingSequence = [
+		{
+			e: $('nav'), p: { height: "200px" }, o: { duration : 0 }
+		},
+		{
+			e: $('.nav-block h2'), p: { opacity:1 }, o: { duration : 0 }
+		},
         { 
         	e: $('#first'), p: { opacity: 1 }, o: { duration: 15000 } 
     	},
@@ -112,10 +124,10 @@ var loadSequence = function(){
 			e: $('.nav-block.active'), p:{ opacity: 1, scale: 1 }, o: { duration: 2000 }
 		},
 		{
-			e: $('.nav-block'), p:{ opacity: 1, scale: 1 }, o: { duration: 1000 }
+			e: $('.nav-block'), p:{ opacity: 1, scale: 1 }, o: { duration: 1500 }
 		},
 		{
-			e: $('#replay'), p: { opacity: 1, scale: 1}, o: {duration: 1000}
+			e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000}
 		}
    ];
 
