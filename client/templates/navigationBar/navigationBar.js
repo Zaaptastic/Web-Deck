@@ -4,6 +4,10 @@ var navBoxWidth = function(){
 };
 
 var initMenu = function(n,resize=false){
+	/*
+		Initializes menu by properly positioning and sizing them, as well as re-centering
+		if applicable (should not be done when resizing window)
+	*/
 	flag = false;
 	var width = 100/n; 
 	i = 0;
@@ -12,7 +16,7 @@ var initMenu = function(n,resize=false){
 		i++;
 	});
 
-	if (!resize){
+	if (!resize){ //Avoid when calling initMenu due to window resize
 		//Adjust menu to appropriate center button relative to current URL path
 		var currentURL = window.location.pathname;
 		var currentElem = $('a[href="'+currentURL+'"]');
@@ -25,6 +29,8 @@ var initMenu = function(n,resize=false){
 			var current = $(links[i]);
 			   	current.addClass('disabled');
 			}
+			$('#b'+Math.ceil(n/2)).addClass('active'); //since there is no active hard-coded
+			//sets active to the middle menu button so that this recentering is a valid function
 			var distance = countPositions(currentElem);
 			console.log('index is '+distance);
 			$('.nav-block.active').removeClass('active');
@@ -49,6 +55,11 @@ var initMenu = function(n,resize=false){
 };
 
 var slideMenu = function(index, instant = false){
+	/*
+		Slides menu by a certain number of index positions, with the option of doing so
+		over a duration (default 600) or instantly, which is useful in initMenu to create
+		the illusion that the menu was loaded centered on the appropriate page
+	*/
 		var durationTime = 600;
 		if (instant)
 			durationTime = 0;
@@ -101,6 +112,7 @@ var slideMenu = function(index, instant = false){
 		        	}
 		     	});
 	    }else if (index>0) {
+	    	//For sliding in the opposite direction
 	    	var currentBox = $('.nav-block:visible:first');
 	    	for (count = Math.abs(index); count > 0; count -= 1){
 		     	//clone the first nav-block and insert it after the last
@@ -142,15 +154,6 @@ var countPositions = function(elem) {//finds and returns the distance between th
  		return value;
 };
 
-var slidePage = function(index, link){
-	console.log("Sliding page to "+link + " with index of " + index);
-	if (index < 0){
-		//Slide from left to right
-
-	}else if (index > 0){
-		//Slide from right to left
-	}
-};
 
 var watchClick = function() {//watches clicks on the nav-blocks elements
   		$(document).on('click', '.nav-block', function(){
@@ -214,8 +217,6 @@ var watchHover = function() {//watches hover on menu to expand/contract
 		}
 	);
 };
-
-
 
 Template.navigationBar.onRendered(function () {
 	  initMenu(5);

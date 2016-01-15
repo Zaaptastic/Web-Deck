@@ -1,15 +1,32 @@
 var hideMenu = function(){
+	/*
+		Resets elements on page to default values in preparation of opening 
+		sequence animation
+	*/
+
+	$('#replay').css({
+		opacity:0,
+		scale:0
+	});
+	$('#skip').css({
+		opacity:1
+	});
 	$('.nav-block').css({
-		"opacity":"0",
-		"scale":"0",
+		opacity:0,
+		scale:0,
 	});
 	$('.openingFrame').css({
-		"opacity":"0",
-		"scale":"0",
+		opacity:0,
+		scale:0
 	});
 };
 
 var skip = function(){
+	/*
+		Adds skip button functionality, which stops all current animations and replaces
+		with a shorter animation that immediately animates to
+		the final splash page state
+	*/
 	$('#skip').click(function(){
 
 		$('.openingFrame').css({
@@ -44,15 +61,22 @@ var skip = function(){
 };
 
 var replay = function(){
+	/*
+		Adds replay button functionality. Returns all elements to their default values
+		and restarts the opening sequence
+	*/
 	$('#replay').click(function(){
-		$('#replay').css({opacity:0,scale:0});
-		$('#skip').css({opacity:1});
 		hideMenu();
 		loadSequence();
 	});
 }
 
 splashMain = function(){
+	/*
+		Main function, called on by nav bar's initMenu so that the menu is properly
+		constructed before any animations begin
+		(Impt, otherwise some menu buttons have opacity:0 after opening sequence animation)
+	*/
 	hideMenu();
 	skip();
 	replay();
@@ -60,6 +84,10 @@ splashMain = function(){
 };
 
 var loadSequence = function(){
+	/*
+		Defines and executes the opening sequence animations
+	*/
+
 	// Create the array of Velocity calls
    loadingSequence = [
         { 
