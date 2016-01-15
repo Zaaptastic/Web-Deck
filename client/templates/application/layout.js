@@ -2,6 +2,10 @@ Template.layout.onRendered(function() {
 	var startLeft = "-100%";
 	var startRight = "100%";
 
+	$(document).ready(function(){
+		$('#loading').css("display","none");
+	});
+
 
 	this.find('#main')._uihooks = {
 
@@ -9,7 +13,7 @@ Template.layout.onRendered(function() {
 			var dir = Session.get("direction");
 			var start = startLeft;
 			if (dir === "rightToLeft")
-				start = startRight	
+				start = startRight;	
 
 
 			$(node)
@@ -29,7 +33,7 @@ Template.layout.onRendered(function() {
 			var dir = Session.get("direction");
 			var end = startLeft;
 			if (dir === "rightToLeft")
-				end = startRight	
+				end = startRight;	
 			$(node).velocity(
 				{
 	        		left: end

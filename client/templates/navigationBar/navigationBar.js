@@ -29,6 +29,9 @@ initMenu = function(n,resize=false){
 			var current = $(links[i]);
 			   	current.addClass('disabled');
 			}
+			console.log($('.active'));
+			console.log($('.active').index()+"@@@@");
+			$('.active').removeClass('active');
 			$('#b'+Math.ceil(n/2)).addClass('active'); //since there is no active hard-coded
 			//sets active to the middle menu button so that this recentering is a valid function
 			var distance = countPositions(currentElem);
