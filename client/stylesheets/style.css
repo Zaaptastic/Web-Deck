@@ -131,5 +131,14 @@ a.disabled{
   transform: translateX(-50%);
 }
 
+#replay{
+	font-size: 20px;
+	position: absolute;
+	top:5%;
+	left:5%;
+	opacity: 0;
+	scale: 0;
+}
+
 
 

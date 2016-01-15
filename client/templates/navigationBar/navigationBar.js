@@ -3,33 +3,48 @@ var navBoxWidth = function(){
  	return $('.nav-block').outerWidth(true);
 };
 
-var initMenu = function(n){
-	console.log("Initalizing menu")
+var initMenu = function(n,resize=false){
 	flag = false;
 	var width = 100/n; 
 	i = 0;
 	$('.nav-block').each(function(){
 		$(this).css({'left':width*i+'%','width':width+'%'});
-		//$(this).addClass('minimized');
 		i++;
 	});
-	//Adjust menu to appropriate center button relative to current URL path
-	var currentURL = window.location.pathname;
-	var currentElem = $('a[href="'+currentURL+'"]');
-	console.log(currentURL);
-	if (currentURL !== '/'){
-		flag = true; //switch flag so that we know an animation is taking place
-		//Disable links while animating
-		var links = document.getElementsByTagName('a');
-		for (var i=0;i<links.length;i++){
-		var current = $(links[i]);
-		   	current.addClass('disabled');
+
+	if (!resize){
+		//Adjust menu to appropriate center button relative to current URL path
+		var currentURL = window.location.pathname;
+		var currentElem = $('a[href="'+currentURL+'"]');
+		console.log(currentURL);
+		if (currentURL !== '/'){ //handles centering menu when refreshing a routed page
+			flag = true; //switch flag so that we know an animation is taking place
+			//Disable links while animating
+			var links = document.getElementsByTagName('a');
+			for (var i=0;i<links.length;i++){
+			var current = $(links[i]);
+			   	current.addClass('disabled');
+			}
+			var distance = countPositions(currentElem);
+			console.log('index is '+distance);
+			$('.nav-block.active').removeClass('active');
+			$(currentElem).addClass('active');
+			slideMenu(distance,true); //make sliding instant
+		}else{ //handles centered menu on Page 1 at splash page
+			var first = $('#b1');
+			var distance = 1-Math.ceil(n/2);
+			console.log("index=" + distance);
+			flag = true; //switch flag so that we know an animation is taking place
+			//Disable links while animating
+			var links = document.getElementsByTagName('a');
+			for (var i=0;i<links.length;i++){
+			var current = $(links[i]);
+			   	current.addClass('disabled');
+			}
+			$(first).addClass('active');
+			slideMenu(distance,true);
+			splashMain();
 		}
-		var distance = countPositions(currentElem);
-		console.log('index is '+distance);
-		$('.nav-block.active').removeClass('active');
-		$(currentElem).addClass('active');
-		slideMenu(distance,true); //make sliding instant
 	}
 };
 
@@ -164,7 +179,6 @@ var watchClick = function() {//watches clicks on the nav-blocks elements
 var watchHover = function() {//watches hover on menu to expand/contract
 	$('nav').mouseenter(
 		function(){
-			console.log("beginning slide up");
 			$('nav').velocity(
 				{
 			       	height: "200px",
@@ -177,13 +191,11 @@ var watchHover = function() {//watches hover on menu to expand/contract
 						$('.nav-block h2').css({
 							"visibility":"visible",
 						});
-						console.log("completed slide up")
 			        }
 		     	}
 			);
 		}).mouseleave( 
 		function(){
-			console.log("beginning slide down");
 			$('nav').velocity(
 				{
 		        	height: "50px",
@@ -196,7 +208,6 @@ var watchHover = function() {//watches hover on menu to expand/contract
 						$('.nav-block h2').css({
 							"visibility":"hidden",
 						});
-						console.log("completed slide down");
 			        }
 		     	}
 			);
@@ -211,7 +222,7 @@ Template.navigationBar.onRendered(function () {
 	  watchClick();
 	  watchHover();
 	  $( window ).resize(function() {
-	  initMenu(5);
+	  initMenu(5,true);
 	  });  
 });
 
