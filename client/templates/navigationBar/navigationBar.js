@@ -8,6 +8,7 @@ initMenu = function(n,resize=false){
 		Initializes menu by properly positioning and sizing them, as well as re-centering
 		if applicable (should not be done when resizing window)
 	*/
+
 	flag = false;
 	var width = 100/n; 
 	i = 0;
@@ -16,29 +17,56 @@ initMenu = function(n,resize=false){
 		i++;
 	});
 
-	if (!resize){ //Avoid when calling initMenu due to window resize
+	$('.nav-block').addClass('gray-out');
+	$('#b1').removeClass('gray-out');
+
+
+	if (!resize) //Avoid when calling initMenu due to window resize
+		recenter(n,resize);
+	
+};
+
+recenter = function(n){
+
+
 		//Adjust menu to appropriate center button relative to current URL path
 		var currentURL = window.location.pathname;
 		var currentElem = $('a[href="'+currentURL+'"]');
 		console.log(currentURL);
 		if (currentURL !== '/'){ //handles centering menu when refreshing a routed page
+			pageValue = currentURL.split("/")[1];
+
+
+			//Ensure visited menu makes sense for refresh (previously pages are
+			//avaliable to click)
+			var visited = [];
+			for (var i = 0; i <= pageValue; i++){
+				var toAdd = i+1
+				visited.push(toAdd);
+				$('#b'+toAdd).removeClass('gray-out');
+			}
+			Session.set("progress",visited);
+
+			//Now do the sliding
 			flag = true; //switch flag so that we know an animation is taking place
 			//Disable links while animating
+			console.log('recentering');
 			var links = document.getElementsByTagName('a');
 			for (var i=0;i<links.length;i++){
 			var current = $(links[i]);
 			   	current.addClass('disabled');
 			}
-			console.log($('.active'));
-			console.log($('.active').index()+"@@@@");
 			$('.active').removeClass('active');
-			$('#b'+Math.ceil(n/2)).addClass('active'); //since there is no active hard-coded
-			//sets active to the middle menu button so that this recentering is a valid function
-			var distance = countPositions(currentElem);
+			$('#b'+pageValue).addClass('active'); //since there is no active hard-coded
+			//sets active to current URL so that this recentering is a valid function
+			var distance = pageValue - Math.ceil(n/2);
 			console.log('index is '+distance);
 			$('.nav-block.active').removeClass('active');
 			$(currentElem).addClass('active');
 			slideMenu(distance,true); //make sliding instant
+
+
+
 		}else{ //handles centered menu on Page 1 at splash page
 			var first = $('#b1');
 			var distance = 1-Math.ceil(n/2);
@@ -52,9 +80,15 @@ initMenu = function(n,resize=false){
 			}
 			$(first).addClass('active');
 			slideMenu(distance,true);
+			$(first).removeClass('active'); //remove active tag so that there is no user 
+			//confusion on what the cover page is vs. the first chapter page
 			splashMain();
 		}
-	}
+	
+}
+
+disable = function() {
+
 };
 
 slideMenu = function(index, instant = false){
@@ -156,13 +190,30 @@ slideMenu = function(index, instant = false){
 
 countPositions = function(elem) {//finds and returns the distance between the active item and the clicked item
  		var value = $(elem).index() - $('.nav-block.active').index();
+ 		if ($('.nav-block').hasClass('active') === false) //if there is no active class,
+ 			//then there should be no sliding done, so we hard set value to 0
+ 			value = 0;
  		return value;
 };
 
 
 watchClick = function() {//watches clicks on the nav-blocks elements
   		$(document).on('click', '.nav-block', function(){
-	    	if (!flag){ //if there is no ongoing animation
+	    	if (!flag){ //if there is no ongoing animation and thus sliding is valid
+	    		//Adds next page to array of already visited pages, unlocks next page 
+				var pageValueString = this.pathname.split("/")[1];
+				if (pageValueString === "")
+					pageValueString = 0;
+				var pageValue = parseInt(pageValueString);
+				$('#b'+(pageValue+1)).removeClass('gray-out');
+				visited = Session.get("progress");
+				if (visited.indexOf(pageValue) === -1){
+					console.log("adding "+pageValue+" to visited");
+					visited.push(pageValue);
+				}
+				Session.set("progress",visited);
+
+				//Now perform the actual sliding
 	    		flag = true; //switch flag so that we know an animation is taking place
 	    		//Disable links while animating
 	    		var links = document.getElementsByTagName('a');
@@ -224,6 +275,7 @@ watchHover = function() {//watches hover on menu to expand/contract
 };
 
 Template.navigationBar.onRendered(function () {
+	  Session.set("progress",[]);
 	  initMenu(5);
 	  watchClick();
 	  watchHover();

@@ -92,13 +92,17 @@ a {
 }
 
 a.disabled{
-	pointer-events:none;
+  pointer-events:none;
 }
 
 .page {
 	position: absolute;
 	height: 100%;
 	width: 100%;
+}
+
+.content {
+  height: 200%;
 }
 
 #main{
@@ -158,3 +162,9 @@ a.disabled{
 
 }
 
+.gray-out{
+  pointer-events: none;
+  color: white;
+  background: gray;
+  opacity: .2;
+}
