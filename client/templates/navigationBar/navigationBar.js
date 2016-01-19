@@ -286,8 +286,7 @@ centerCheck = function(currentPath) {
 
 	if(currentIden===0){ //restore state of the cover page
 		$('.active').removeClass('active');
-		$('#replay').css("opacity","0"); //Since the loading sequence is disabled, remove
-		//the option to replay 
+		//splashMain();
 		//this doesn't work....why?
 
 

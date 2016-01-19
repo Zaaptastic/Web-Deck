@@ -3,7 +3,6 @@ var hideMenu = function(){
 		Resets elements on page to default values in preparation of opening 
 		sequence animation
 	*/
-
 	$('#replay').css({
 		opacity:0,
 		scale:0
