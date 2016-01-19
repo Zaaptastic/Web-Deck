@@ -3,14 +3,22 @@ Template.layout.onRendered(function() {
 		Defines the functions involved in advancing the page in the event that the user keeps
 		scrolling past the bottom of the page
 	*/
+
+	scrollCount = 0; //Only apply scroll-induced click after first the time the user scrolls to the
+	//very bottom, otherwise will make this feature annoying to use since it will be too responsive
+
 	window.onscroll = function() {
 	    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-	    	var nextPage = $('.active').next();
-	    	if (nextPage.is('#b1') === false){ //Do not wrap to first chapter upon reaching the end	        
-				if (flag === false){ //Ensures that only one scroll-induced click occurs at once
-			        nextPage.click();
-			        window.scrollTo(0,0);
-			    }
+			scrollCount += 1;
+	    	if (scrollCount >= 2){
+		    	var nextPage = $('.active').next();
+		    	if (nextPage.is('#b1') === false){ //Do not wrap to first chapter upon reaching the end	        
+					if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
+				        nextPage.click();
+				        $('body').scrollTop(0);
+				        scrollCount = 0;
+				    }
+		    	}
 	    	}
 	    }
 	};

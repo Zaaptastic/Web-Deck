@@ -21,15 +21,15 @@ initMenu = function(n,resize=false){
 	$('#b1').removeClass('gray-out');
 
 
-	if (!resize) //Avoid when calling initMenu due to window resize
-		recenter(n,resize);
+	if (!resize) //Avoid recentering when calling initMenu due to window resize
+		recenter(n);
 	
 };
 
 recenter = function(n){
-
-
-		//Adjust menu to appropriate center button relative to current URL path
+	/*
+		Adjusts menu to appropriate center button relative to current URL path
+	*/
 		var currentURL = window.location.pathname;
 		var currentElem = $('a[href="'+currentURL+'"]');
 		console.log(currentURL);
@@ -86,10 +86,6 @@ recenter = function(n){
 		}
 	
 }
-
-disable = function() {
-
-};
 
 slideMenu = function(index, instant = false){
 	/*
