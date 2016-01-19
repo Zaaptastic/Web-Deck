@@ -278,6 +278,12 @@ getCurrIden = function(){
 	return getNavIden(currentElem);
 }
 
+centerCheck = function() {
+	var currentIden = getCurrIden();
+	var activeIden = getNavIden($('.active'));
+	console.log(currentIden + " v. " +activeIden);
+}
+
 Template.navigationBar.onRendered(function () {
 	  Session.set("progress",[]);
 	  getNavIden($('.nav-block'));
