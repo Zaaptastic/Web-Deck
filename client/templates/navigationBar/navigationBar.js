@@ -46,7 +46,6 @@ recenter = function(n){
 			//Now do the sliding
 			flag = true; //switch flag so that we know an animation is taking place
 			//Disable links while animating
-			console.log('recentering');
 			var links = document.getElementsByTagName('a');
 			for (var i=0;i<links.length;i++){
 			var current = $(links[i]);
@@ -58,8 +57,6 @@ recenter = function(n){
 			var distance = currentIden - Math.ceil(n/2);
 			console.log('index is '+distance);
 			slideMenu(distance,true); //make sliding instant
-
-
 
 		}else{ //handles centered menu on Page 1 at splash page
 			var first = $('#b1');
@@ -267,6 +264,8 @@ watchHover = function() {//watches hover on menu to expand/contract
 
 getNavIden = function(navObj){
 	var navId = navObj.attr('id');
+	if (navId === undefined)
+		return 0
 	return parseInt(navId.split("b")[1]);
 }
 
@@ -278,10 +277,40 @@ getCurrIden = function(){
 	return getNavIden(currentElem);
 }
 
-centerCheck = function() {
-	var currentIden = getCurrIden();
+centerCheck = function(currentPath) {
+	//Compare the current URL to the active menu nav-block. If there is a mismatch, then
+	//recentering needs to be performed
+	var currentIden = $('a[href="'+currentPath+'"]');
+	currentIden = getNavIden(currentIden);
 	var activeIden = getNavIden($('.active'));
-	console.log(currentIden + " v. " +activeIden);
+
+	if(currentIden===0){ //restore state of the cover page
+		$('.active').removeClass('active');
+		$('#replay').css("opacity","0"); //Since the loading sequence is disabled, remove
+		//the option to replay 
+		//this doesn't work....why?
+
+
+
+
+	}else if (currentIden !== activeIden){ //if there is a mismatch and not to the cover page
+		//Now do the sliding
+		flag = true; //switch flag so that we know an animation is taking place
+		//Disable links while animating
+		var links = document.getElementsByTagName('a');
+		for (var i=0;i<links.length;i++){
+		var current = $(links[i]);
+		   	current.addClass('disabled');
+		}
+		var distance = countPositions($('#b'+currentIden));
+
+		$('.active').removeClass('active');
+		$('#b'+currentIden).addClass('active');
+		console.log('index is '+distance);
+		slideMenu(distance,true); //make sliding instant
+	}
+
+
 }
 
 Template.navigationBar.onRendered(function () {
