@@ -57,7 +57,7 @@ var skip = function(){
 				e: $('.nav-block#b1'), p:{ opacity: 1, scale: 1 }, o: { duration: 2000 }
 			},
 			{
-				e: $('.nav-block'), p:{ opacity: 1, scale: 1 }, o: { duration: 1500 }
+				e: $('.nav-block.gray-out'), p:{ opacity: .2, scale: 1 }, o: { duration: 1500 }
 			},
 			{
 				e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000}
@@ -128,7 +128,7 @@ var loadSequence = function(){
 			e: $('.nav-block#b1'), p:{ opacity: 1, scale: 1 }, o: { duration: 2000 }
 		},
 		{
-			e: $('.nav-block'), p:{ opacity: 1, scale: 1 }, o: { duration: 1500 }
+			e: $('.nav-block.gray-out'), p:{ opacity: .2, scale: 1 }, o: { duration: 1500 }
 		},
 		{
 			e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000}

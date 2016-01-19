@@ -202,6 +202,7 @@ watchClick = function() {//watches clicks on the nav-blocks elements
 					pageValueString = 0;
 				var pageValue = parseInt(pageValueString);
 				$('#b'+(pageValue+1)).removeClass('gray-out');
+				$('#b'+(pageValue+1)).css("opacity","1");
 				visited = Session.get("progress");
 				if (visited.indexOf(pageValue) === -1){
 					console.log("adding "+pageValue+" to visited");
