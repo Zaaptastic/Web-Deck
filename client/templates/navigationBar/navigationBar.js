@@ -21,7 +21,7 @@ initMenu = function(n,resize=false){
 	$('#b1').removeClass('gray-out');
 
 
-	if (!resize) //Avoid recentering when calling initMenu due to window resize
+	//if (!resize) //Avoid recentering when calling initMenu due to window resize
 		recenter(n);
 	
 };
@@ -30,17 +30,13 @@ recenter = function(n){
 	/*
 		Adjusts menu to appropriate center button relative to current URL path
 	*/
-		var currentURL = window.location.pathname;
-		var currentElem = $('a[href="'+currentURL+'"]');
-		console.log(currentURL);
-		if (currentURL !== '/'){ //handles centering menu when refreshing a routed page
-			pageValue = currentURL.split("/")[1];
-
+		var currentIden = getCurrIden();
+		if (currentIden !== null){ //handles centering menu when refreshing a routed page
 
 			//Ensure visited menu makes sense for refresh (previously pages are
 			//avaliable to click)
 			var visited = [];
-			for (var i = 0; i <= pageValue; i++){
+			for (var i = 0; i <= currentIden; i++){
 				var toAdd = i+1
 				visited.push(toAdd);
 				$('#b'+toAdd).removeClass('gray-out');
@@ -57,12 +53,10 @@ recenter = function(n){
 			   	current.addClass('disabled');
 			}
 			$('.active').removeClass('active');
-			$('#b'+pageValue).addClass('active'); //since there is no active hard-coded
+			$('#b'+currentIden).addClass('active'); //since there is no active hard-coded
 			//sets active to current URL so that this recentering is a valid function
-			var distance = pageValue - Math.ceil(n/2);
+			var distance = currentIden - Math.ceil(n/2);
 			console.log('index is '+distance);
-			$('.nav-block.active').removeClass('active');
-			$(currentElem).addClass('active');
 			slideMenu(distance,true); //make sliding instant
 
 
@@ -195,12 +189,11 @@ countPositions = function(elem) {//finds and returns the distance between the ac
 
 watchClick = function() {//watches clicks on the nav-blocks elements
   		$(document).on('click', '.nav-block', function(){
+	     	
 	    	if (!flag){ //if there is no ongoing animation and thus sliding is valid
 	    		//Adds next page to array of already visited pages, unlocks next page 
-				var pageValueString = this.pathname.split("/")[1];
-				if (pageValueString === "")
-					pageValueString = 0;
-				var pageValue = parseInt(pageValueString);
+				
+				var pageValue = getNavIden($(this));
 				$('#b'+(pageValue+1)).removeClass('gray-out');
 				$('#b'+(pageValue+1)).css("opacity","1");
 				visited = Session.get("progress");
@@ -223,6 +216,7 @@ watchClick = function() {//watches clicks on the nav-blocks elements
 	     		$('.nav-block.active').removeClass('active');
 	     		$(this).addClass('active');
 	     		slideMenu(distance);
+
 	   		}else{
 	      		console.log("Attempted to slide before animation completed");
 	   		}
@@ -271,8 +265,22 @@ watchHover = function() {//watches hover on menu to expand/contract
 	);
 };
 
+getNavIden = function(navObj){
+	var navId = navObj.attr('id');
+	return parseInt(navId.split("b")[1]);
+}
+
+
+getCurrIden = function(){
+	var currentElem = $('a[href="'+window.location.pathname+'"]');
+	if (window.location.pathname === "/")
+		return null;
+	return getNavIden(currentElem);
+}
+
 Template.navigationBar.onRendered(function () {
 	  Session.set("progress",[]);
+	  getNavIden($('.nav-block'));
 	  initMenu(5);
 	  watchClick();
 	  watchHover();
