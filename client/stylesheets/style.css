@@ -62,7 +62,7 @@ nav .nav-block{
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     border: 1px solid grey;
-
+    font-size: 20px;
     transition: border 400ms ease-in;
 }
 nav .nav-block:hover{

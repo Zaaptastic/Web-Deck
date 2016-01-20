@@ -19,8 +19,6 @@ initMenu = function(n,resize=false){
 
 	if (!resize) { //Avoid recentering or altering what is grayed out
 		//when calling initMenu due to window resize	
-		$('.nav-block').addClass('gray-out');
-		$('#b1').removeClass('gray-out');
 		recenter(n,true);
 	}
 	
@@ -74,7 +72,7 @@ recenter = function(n,resize=false){
 			slideMenu(distance,true);
 			$(first).removeClass('active'); //remove active tag so that there is no user 
 			//confusion on what the cover page is vs. the first chapter page
-			splashMain();
+			//splashMain();
 		}
 	
 }
@@ -275,11 +273,8 @@ centerCheck = function(currentPath) {
 	currentIden = getNavIden(currentIden);
 	var activeIden = getNavIden($('.active'));
 
-	if(currentIden===0){ //restore state of the cover page
+	if(currentIden===0){ //restore state of the cover page, centering on page 1
 		$('.active').removeClass('active');
-		//splashMain();
-		//this doesn't work....why?
-
 	}else if (currentIden !== activeIden){ //if there is a mismatch and not to the cover page
 		//Now do the sliding
 		disable();
@@ -293,9 +288,15 @@ centerCheck = function(currentPath) {
 }
 
 Template.navigationBar.onRendered(function () {
+	
+		$('.nav-block').addClass('gray-out');
+		$('#b1').removeClass('gray-out');	
 	  Session.set("progress",[]);
-	  getNavIden($('.nav-block'));
 	  initMenu(5);
+	  if (window.location.pathname === "/"){
+		  hideMenu();
+		  loadSequence();
+	  }
 	  watchClick();
 	  watchHover();
 	  $( window ).resize(function() {
