@@ -21,9 +21,6 @@ hideMenu = function(){
 		opacity:0,
 		scale:0
 	});
-
-	console.log($('#replay'));
-	console.log($('#skip'));
 };
 
 var skip = function(){
@@ -83,18 +80,6 @@ var replay = function(){
 	});
 }
 
-splashMain = function(){
-	/*
-		Main function, called on by nav bar's initMenu so that the menu is properly
-		constructed before any animations begin
-		(Impt, otherwise some menu buttons have opacity:0 after opening sequence animation)
-	*/
-	hideMenu();
-	skip();
-	replay();
-	loadSequence();
-};
-
 var loadSequence = function(){
 	/*
 		Defines and executes the opening sequence animations
@@ -130,7 +115,7 @@ var loadSequence = function(){
 			e: $('.nav-block#b1'), p:{ opacity: 1, scale: 1 }, o: { duration: 2000 }
 		},
 		{
-			e: $('.nav-block.gray-out'), p:{ opacity: .2, scale: 1 }, o: { duration: 1500 }
+			e: $('.gray-out'), p:{ opacity: .2, scale: 1 }, o: { duration: 1500 }
 		},
 		{
 			e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000}
@@ -143,7 +128,12 @@ var loadSequence = function(){
 }
 
 Template.splashPage.onRendered(function(){
-	console.log("splashPage");
-	//initMenu(5);
-	splashMain();
+
+		$('.nav-block').addClass('gray-out');
+		$('#b1').removeClass('gray-out');
+		hideMenu();
+		skip();
+		replay();
+		loadSequence();
+
 });

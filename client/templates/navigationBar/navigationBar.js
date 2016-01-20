@@ -19,8 +19,6 @@ initMenu = function(n,resize=false){
 
 	if (!resize) { //Avoid recentering or altering what is grayed out
 		//when calling initMenu due to window resize	
-		$('.nav-block').addClass('gray-out');
-		$('#b1').removeClass('gray-out');
 		recenter(n,true);
 	}
 	
@@ -275,11 +273,8 @@ centerCheck = function(currentPath) {
 	currentIden = getNavIden(currentIden);
 	var activeIden = getNavIden($('.active'));
 
-	if(currentIden===0){ //restore state of the cover page
+	if(currentIden===0){ //restore state of the cover page, centering on page 1
 		$('.active').removeClass('active');
-		//splashMain();
-		//this doesn't work....why?
-
 	}else if (currentIden !== activeIden){ //if there is a mismatch and not to the cover page
 		//Now do the sliding
 		disable();
@@ -293,10 +288,10 @@ centerCheck = function(currentPath) {
 }
 
 Template.navigationBar.onRendered(function () {
-	console.log("navbar");
 	  Session.set("progress",[]);
 	  getNavIden($('.nav-block'));
 	  initMenu(5);
+	  $('.gray-out').css("opacity","0");
 	  watchClick();
 	  watchHover();
 	  $( window ).resize(function() {

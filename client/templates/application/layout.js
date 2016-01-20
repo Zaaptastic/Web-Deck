@@ -28,7 +28,7 @@ Template.layout.onRendered(function() {
 	    }else if($(window).scrollTop() < -5){
 	    	upScrollCount += 1;
 	    	if (upScrollCount >= 2){
-		    	var prevPage = $('.active').prev();
+		    	var prevPage = $('.nav-block').prev();
 		    	if ($('.active').is('#b1') === false){ //Do not wrap to last chapter upon reaching the beginning	        
 					if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
 				        prevPage.click();
