@@ -21,6 +21,9 @@ hideMenu = function(){
 		opacity:0,
 		scale:0
 	});
+
+	console.log($('#replay'));
+	console.log($('#skip'));
 };
 
 var skip = function(){
@@ -138,3 +141,9 @@ var loadSequence = function(){
    $.Velocity.RunSequence(loadingSequence);
 
 }
+
+Template.splashPage.onRendered(function(){
+	console.log("splashPage");
+	//initMenu(5);
+	splashMain();
+});

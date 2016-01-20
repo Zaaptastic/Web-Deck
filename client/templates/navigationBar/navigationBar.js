@@ -74,7 +74,7 @@ recenter = function(n,resize=false){
 			slideMenu(distance,true);
 			$(first).removeClass('active'); //remove active tag so that there is no user 
 			//confusion on what the cover page is vs. the first chapter page
-			splashMain();
+			//splashMain();
 		}
 	
 }
@@ -293,6 +293,7 @@ centerCheck = function(currentPath) {
 }
 
 Template.navigationBar.onRendered(function () {
+	console.log("navbar");
 	  Session.set("progress",[]);
 	  getNavIden($('.nav-block'));
 	  initMenu(5);
