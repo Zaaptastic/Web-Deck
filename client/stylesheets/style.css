@@ -105,6 +105,10 @@ a.disabled{
   height: 200%;
 }
 
+.splashPage{
+  height: 101%;
+}
+
 #main{
 	text-align: center;
 	font-size: 50px;

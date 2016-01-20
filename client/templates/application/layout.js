@@ -4,19 +4,35 @@ Template.layout.onRendered(function() {
 		scrolling past the bottom of the page
 	*/
 
-	scrollCount = 0; //Only apply scroll-induced click after first the time the user scrolls to the
-	//very bottom, otherwise will make this feature annoying to use since it will be too responsive
+	downScrollCount = 0; 
+	upScrollCount = 0; //Only apply scroll-induced click after first the time the user scrolls to the
+	//very bottom or very top, otherwise will make this feature annoying to use since it 
+	//will be too responsive
 
 	window.onscroll = function() {
 	    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-			scrollCount += 1;
-	    	if (scrollCount >= 2){
+			downScrollCount += 1;
+	    	if (downScrollCount >= 2){
 		    	var nextPage = $('.active').next();
-		    	if (nextPage.is('#b1') === false){ //Do not wrap to first chapter upon reaching the end	        
+		    	if ($('.active').is('.nav-block') === false){ //Scroll to page 1 from the 
+		    		//cover page
+		    		$('#b1').click();
+		    		scrollCount = 0;
+		    	}else if (nextPage.is('#b1') === false){ //Do not wrap to first chapter upon reaching the end	        
 					if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
 				        nextPage.click();
-				        $('body').scrollTop(0);
-				        scrollCount = 0;
+				        downScrollCount = 0;
+				    }
+		    	}
+	    	}
+	    }else if($(window).scrollTop() < -5){
+	    	upScrollCount += 1;
+	    	if (upScrollCount >= 2){
+		    	var prevPage = $('.active').prev();
+		    	if ($('.active').is('#b1') === false){ //Do not wrap to last chapter upon reaching the beginning	        
+					if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
+				        prevPage.click();
+				        upScrollCount = 0;
 				    }
 		    	}
 	    	}
