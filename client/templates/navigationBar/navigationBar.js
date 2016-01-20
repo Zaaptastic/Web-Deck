@@ -288,11 +288,11 @@ centerCheck = function(currentPath) {
 }
 
 Template.navigationBar.onRendered(function () {
-	
-		$('.nav-block').addClass('gray-out');
-		$('#b1').removeClass('gray-out');	
+	  menuSize = 5;
+	  $('.nav-block').addClass('gray-out');
+	  $('#b1').removeClass('gray-out');	
 	  Session.set("progress",[]);
-	  initMenu(5);
+	  initMenu(menuSize);
 	  if (window.location.pathname === "/"){
 		  hideMenu();
 		  loadSequence();
@@ -300,7 +300,7 @@ Template.navigationBar.onRendered(function () {
 	  watchClick();
 	  watchHover();
 	  $( window ).resize(function() {
-	  	initMenu(5,true);
+	  	initMenu(menuSize,true);
 	  });  
 });
 
