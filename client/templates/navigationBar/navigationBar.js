@@ -9,7 +9,11 @@ var initMenu = function(n,resize=false){
 		if applicable (should not be done when resizing window)
 	*/
 
-	flag = false;
+	flag = false; //flag is a global variable used to keep track of whether an animation
+	//is currently ongoing, so that overlapping animations do not occur
+
+	//Set the width and left CSS properties for each nav-block (menu button), based on 
+	//how many menu buttons exist
 	var width = 100/n; 
 	i = 0;
 	$('.nav-block').each(function(){
@@ -27,7 +31,8 @@ var initMenu = function(n,resize=false){
 var disable = function(){
 	/*
 		Disables navbar functions when an animation begins so that overlapping
-		animations do not occur. Re-enabled in the slideMenu function.
+		animations do not occur. Re-enabled in the slideMenu function with a call to
+		enable().
 	*/
 	flag = true; //switch flag so that we know an animation is taking place
 	//Disable links while animating
@@ -38,9 +43,29 @@ var disable = function(){
 	}
 }
 
+var enable = function(){
+	/*
+		Enables navbar functions when an animation completes. Meant to be called after
+		disable(), once necessary work is finished, to undo the flagging done in that
+		function.
+	*/
+
+	//Switches flag back to false so that the next click can be properly executed
+	flag = false;
+	//Re-enable clicking
+  	var links = document.getElementsByTagName('a');
+	for (var i=0;i<links.length;i++){
+		var current = $(links[i]);
+		current.removeClass('disabled');
+	} 
+}
+
 var recenter = function(n,resize=false){
 	/*
-		Adjusts menu to appropriate center button relative to current URL path
+		Adjusts menu to appropriate center button relative to current URL path. Note
+		the difference in behavior when called on the splashPage vs chapter pages.
+		Typically only called when refreshing a page to move the navbar to the appropriate
+		position
 	*/
 
 		var currentIden = getCurrIden();
@@ -92,18 +117,13 @@ var slideMenu = function(index, instant = false){
 		if (index === 0){
 			//Catches case in which the menu should not slide
 			//Must still set flag to false to allow further sliding and re-enable links
-			flag = false;
-			var links = document.getElementsByTagName('a');
-		    for (var i=0;i<links.length;i++){
-		    	var current = $(links[i]);
-		    	current.removeClass('disabled');
-		    }		
+			enable();	
 
 		}else if (index<0) { //if clicked on the left side of the screen
 			Session.set("direction","leftToRight"); //set Session var for page transition
 	    	var currentBox = $('.nav-block:visible:last');
 	    	for (count = Math.abs(index);count > 0; count -= 1){
-		    //clone the last nav-block and insert it before the first
+		      //clone the last nav-block and insert it before the first
 		      var cloned = currentBox.clone().prependTo('.nav');
 		      var nextLeft = $(cloned).next().css("left"); //calculate the left property of the next box
 		      var clonedLeft = parseFloat(nextLeft,10) - navBoxWidth(); //calculate the left property of the cloned box
@@ -122,16 +142,8 @@ var slideMenu = function(index, instant = false){
 			        complete: function() {
 			          for (count = 0; count < Math.abs(index); count += 1){
 			            $('.nav-block:visible:last').remove();
-			          }
-			          //Switches flag back to false so that the next click can be properly executed
-			          flag = false;
-			          //Re-enable clicking
-  		    		  var links = document.getElementsByTagName('a');
-		    		  for (var i=0;i<links.length;i++){
-		    			var current = $(links[i]);
-		    			current.removeClass('disabled');
-		    		  }  
-
+			          }			           
+			          enable();
 		        	}
 		     	});
 	    }else if (index>0) {
@@ -158,14 +170,7 @@ var slideMenu = function(index, instant = false){
 			          for (count = 0; count < Math.abs(index); count += 1){
 			            $('.nav-block:visible:first').remove();
 			          }
-			          //Switches flag back to false so that the next click can be properly executed
-			          flag = false;
-			          //Re-enable clicking
-		    		  var links = document.getElementsByTagName('a');
-		    		  for (var i=0;i<links.length;i++){
-		    			var current = $(links[i]);
-		    			current.removeClass('disabled');
-		    		  }
+			          enable();
 			        }
 		     	});
 		}
@@ -250,8 +255,11 @@ var watchHover = function() {//watches hover on menu to expand/contract
 	);
 };
 
-var getNavIden = function(navObj){ //given a nav-block, determines the original index by using the
-	//block's assigned Id. Note that this necessitates the use of nav-block Ids #b1, #b2, etc.
+var getNavIden = function(navObj){ 
+	/*
+		Given a nav-block, determines the original index by using theblock's assigned Id. 
+		Note that this necessitates the use of nav-block Ids #b1, #b2, etc.
+	*/
 	var navId = navObj.attr('id');
 	if (navId === undefined)
 		return 0
@@ -259,7 +267,10 @@ var getNavIden = function(navObj){ //given a nav-block, determines the original 
 }
 
 
-var getCurrIden = function(){ //gets assigned Id of the current page, used for recentering
+var getCurrIden = function(){ 
+	/*
+		Gets assigned Id of the current page, used for recentering with centerCheck()
+	*/
 	var currentElem = $('a[href="'+window.location.pathname+'"]');
 	if (window.location.pathname === "/")
 		return null;
@@ -267,8 +278,10 @@ var getCurrIden = function(){ //gets assigned Id of the current page, used for r
 }
 
 centerCheck = function(currentPath) {
-	//Compare the current URL to the active menu nav-block. If there is a mismatch, then
-	//recentering needs to be performed
+	/*
+		Compare the current URL to the active menu nav-block. If there is a mismatch, then
+		recentering needs to be performed
+	*/
 	var currentIden = $('a[href="'+currentPath+'"]');
 	currentIden = getNavIden(currentIden);
 	var activeIden = getNavIden($('.active'));
@@ -288,20 +301,35 @@ centerCheck = function(currentPath) {
 }
 
 Template.navigationBar.onRendered(function () {
-	  menuSize = 5;
-	  $('.nav-block').addClass('gray-out');
-	  $('#b1').removeClass('gray-out');	
-	  Session.set("progress",[]);
-	  initMenu(menuSize);
-	  if (window.location.pathname === "/"){
-		  hideMenu();
-		  loadSequence();
-	  }
-	  watchClick();
-	  watchHover();
-	  $( window ).resize(function() {
+	/*
+		Performs the main initializations for the navbar and also partly for splashPage.
+		splashPage initializations for animations are done here so that they do not repeat
+		when splashPage is returned to via the back browser function.
+	*/
+	menuSize = 5; //Only place where the number of menu buttons must be hard-coded in
+	//the rest of the code will scale with this varaible
+
+	//Adds appropriate .gray-out classes to nav-blocks, then removes it from the first 
+	//menu button (which should always be clickable)
+	$('.nav-block').addClass('gray-out');
+	$('#b1').removeClass('gray-out');	
+	Session.set("progress",[]); //initializes the Session variable that keeps track of 
+	//which pages the user has visited so far in this session
+	initMenu(menuSize); //calls on the initMenu function to give the buttons appropriate
+	//sizes and positions
+	if (window.location.pathname === "/"){
+		//activates the loading sequence if the current page is the splashPage
+		hideMenu();
+		loadSequence();
+	}
+	//activats nav button functions
+	watchClick();
+	watchHover();
+	$( window ).resize(function() {
+		//Allows the menu to be resized with the window, making sure that no movement of the 
+		//menu occurs by passing boolean true to the initMenu function
 	  	initMenu(menuSize,true);
-	  });  
+	});  
 });
 
 

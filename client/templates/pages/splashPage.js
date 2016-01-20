@@ -17,9 +17,6 @@ hideMenu = function(){
 		scale:0,
 		"pointer-events":"none",
 	});
-	/*$('.nav-block h2').css({
-		opacity:0,
-	});*/
 	$('.openingFrame').css({
 		opacity:0,
 		scale:0
@@ -133,6 +130,12 @@ loadSequence = function(){
 }
 
 adjustPointerEvents = function(){
+	/*
+		hideMenu() disables pointer-events in the navbar and the replay button, while 
+		making sure they are enabled for the skip button. This function inverts that and 
+		should represent the button functionality once all animations are completed
+	*/
+
 
 	$('#replay').css({
 		"pointer-events":"all",
@@ -147,6 +150,14 @@ adjustPointerEvents = function(){
 }
 
 Template.splashPage.onRendered(function(){
+	/*
+		When splashPage is rendered, only the skip() and replay() functions need to be called
+		to active their respective click() functions. The automatic start to the animations
+		is assign to the onRender of the navigation bar. This way the animation only 
+		automatically plays when the user opens splashPage for the first time. Returning
+		to it via the back browser function simply shows the final state of the splashPage,
+		while giving the user the option to replay the animation if desired
+	*/
 		skip();
 		replay();
 });

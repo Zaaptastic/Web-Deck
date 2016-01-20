@@ -4,13 +4,22 @@ Template.layout.onRendered(function() {
 		scrolling past the bottom of the page
 	*/
 
-	downScrollCount = 0; 
-	upScrollCount = 0; //Only apply scroll-induced click after first the time the user scrolls to the
+	//Only apply scroll-induced click after first the time the user scrolls to the
 	//very bottom or very top, otherwise will make this feature annoying to use since it 
 	//will be too responsive
 
+	downScrollCount = 0; 
+	upScrollCount = 0; 
+
 	window.onscroll = function() {
+		/*
+			Advances forward to the next page when scrolled to the bottom of the current page.
+			Also returns to the previous page when scrolled to the top of the current page.
+			No wrapping around occurs, but that can be easily changed by removing the 
+			specific caught cases
+		*/
 	    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+	    	//For when the user has scrolled to the bottom of the current page
 			downScrollCount += 1;
 	    	if (downScrollCount >= 2){
 		    	var nextPage = $('.active').next();
@@ -26,6 +35,11 @@ Template.layout.onRendered(function() {
 		    	}
 	    	}
 	    }else if($(window).scrollTop() < -5){
+	    	//For when the user has scrolled to the top of the current page. Technically,
+	    	//the user must scroll PAST the top of the page to trigger this function. This is
+	    	//in place so that this function does not automatically trigger when the user
+	    	//enters a few page (since they will be at the top of the page). The specific
+	    	//degree (-5) is arbitrary, but the current number seemed to work well.
 	    	upScrollCount += 1;
 	    	if (upScrollCount >= 2){
 		    	var prevPage = $('.active').prev();
@@ -45,13 +59,20 @@ Template.layout.onRendered(function() {
 	var startLeft = "-100%";
 	var startRight = "100%";
 
+	//Removes the loading screen
 	$(document).ready(function(){
 		$('#loading').css("display","none");
 	});
 
+	//Functions that create the actual transition between pages
 	this.find('#main')._uihooks = {
-
-		insertElement: function(node, next) { 
+		insertElement: function(node, next) {
+			/*
+				Animates the page entering the window. Uses a set Session variable to determine
+				the direction of animation. Session variable should have been set in the 
+				slideMenu navigationBar function, and should follow the direction that the
+				navbar moves
+			*/ 
 			var dir = Session.get("direction");
 			var start = startLeft;
 			if (dir === "rightToLeft")
@@ -72,6 +93,12 @@ Template.layout.onRendered(function() {
 	        )
 	},
 		removeElement: function(node) {
+			/*
+				Animates the page leaving the window, also using the same Session variable
+				as above. Note that the page leaves from the same direction as the page 
+				entering. They are effectively switching positions and this is done for effect.
+				To create a normal sliding effect, simply swap the direction (var end).
+			*/
 			var dir = Session.get("direction");
 			var end = startLeft;
 			if (dir === "rightToLeft")
