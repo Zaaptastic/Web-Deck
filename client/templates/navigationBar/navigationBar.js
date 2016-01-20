@@ -1,9 +1,9 @@
 
-navBoxWidth = function(){
+var navBoxWidth = function(){
  	return $('.nav-block').outerWidth(true);
 };
 
-initMenu = function(n,resize=false){
+var initMenu = function(n,resize=false){
 	/*
 		Initializes menu by properly positioning and sizing them, as well as re-centering
 		if applicable (should not be done when resizing window)
@@ -38,7 +38,7 @@ var disable = function(){
 	}
 }
 
-recenter = function(n,resize=false){
+var recenter = function(n,resize=false){
 	/*
 		Adjusts menu to appropriate center button relative to current URL path
 	*/
@@ -77,7 +77,7 @@ recenter = function(n,resize=false){
 	
 }
 
-slideMenu = function(index, instant = false){
+var slideMenu = function(index, instant = false){
 	/*
 		Slides menu by a certain number of index positions, with the option of doing so
 		over a duration (default 600) or instantly, which is useful in initMenu to create
@@ -171,7 +171,7 @@ slideMenu = function(index, instant = false){
 		}
 };
 
-countPositions = function(elem) {//finds and returns the distance between the active item and the clicked item
+var countPositions = function(elem) {//finds and returns the distance between the active item and the clicked item
  		var value = $(elem).index() - $('.nav-block.active').index();
  		if ($('.nav-block').hasClass('active') === false) //if there is no active class,
  			//then there should be no sliding done, so we hard set value to 0
@@ -180,7 +180,7 @@ countPositions = function(elem) {//finds and returns the distance between the ac
 };
 
 
-watchClick = function() {//watches clicks on the nav-blocks elements
+var watchClick = function() {//watches clicks on the nav-blocks elements
   		$(document).on('click', '.nav-block', function(){
 	     	
 	    	if (!flag){ //if there is no ongoing animation and thus sliding is valid
@@ -210,7 +210,7 @@ watchClick = function() {//watches clicks on the nav-blocks elements
 
 };
 
-watchHover = function() {//watches hover on menu to expand/contract
+var watchHover = function() {//watches hover on menu to expand/contract
 
 	$('nav').mouseenter(
 		function(){
@@ -250,7 +250,7 @@ watchHover = function() {//watches hover on menu to expand/contract
 	);
 };
 
-getNavIden = function(navObj){ //given a nav-block, determines the original index by using the
+var getNavIden = function(navObj){ //given a nav-block, determines the original index by using the
 	//block's assigned Id. Note that this necessitates the use of nav-block Ids #b1, #b2, etc.
 	var navId = navObj.attr('id');
 	if (navId === undefined)
@@ -259,7 +259,7 @@ getNavIden = function(navObj){ //given a nav-block, determines the original inde
 }
 
 
-getCurrIden = function(){ //gets assigned Id of the current page, used for recentering
+var getCurrIden = function(){ //gets assigned Id of the current page, used for recentering
 	var currentElem = $('a[href="'+window.location.pathname+'"]');
 	if (window.location.pathname === "/")
 		return null;
