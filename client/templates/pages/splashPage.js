@@ -5,14 +5,17 @@ hideMenu = function(){
 	*/
 	$('#replay').css({
 		opacity:0,
-		scale:0
+		scale:0,
+		"pointer-events":"none",
 	});
 	$('#skip').css({
-		opacity:1
+		opacity:1,
+		"pointer-events": "all",
 	});
 	$('.nav-block').css({
 		opacity:0,
 		scale:0,
+		"pointer-events":"none",
 	});
 	/*$('.nav-block h2').css({
 		opacity:0,
@@ -59,7 +62,8 @@ skip = function(){
 				e: $('.nav-block').not("#b1"), p:{ opacity: .2, scale: 1 }, o: { duration: 1500 }
 			},
 			{
-				e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000}
+				e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000, 
+					complete: adjustPointerEvents }
 			}
 		];
 
@@ -106,20 +110,21 @@ loadSequence = function(){
 			e: $('#second'), p: { opacity: 0 }, o: { duration: 0 } 
 		},
 		{
-			e: $('#skip'), p: { opacity: 0 }, o: { duration: 0 }
+			e: $('#skip'), p: { opacity: 0, }, o: { duration: 0 }
 		},
 		{
 			e: $('#third'), p: { opacity: 1 }, o: { duration: 10000 }
 		},
 		{
-			e: $('.nav-block#b1'), p:{ opacity: 1, scale: 1 }, o: { duration: 2000 }
+			e: $('.nav-block#b1'), p:{ opacity: 1, scale: 1}, o: { duration: 2000 }
 		},
 		{
-			e: $('.nav-block').not("#b1"), p:{ opacity: .2, scale: 1 }, o: { duration: 1500 }
+			e: $('.nav-block').not("#b1"), p:{ opacity: .2, scale: 1}, o: { duration: 1500 }
 		},
 		{
-			e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000}
-		}
+			e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000, 
+				complete: adjustPointerEvents }
+		},
    ];
 
    // Pass the array into $.Velocity.RunSequence to kick off the sequence
@@ -127,10 +132,21 @@ loadSequence = function(){
 
 }
 
+adjustPointerEvents = function(){
+
+	$('#replay').css({
+		"pointer-events":"all",
+	});
+	$('#skip').css({
+		"pointer-events":"none",
+	});
+	$('.nav-block').css({
+		"pointer-events":"all",
+	});
+
+}
+
 Template.splashPage.onRendered(function(){
-	
 		skip();
 		replay();
-
-
 });
