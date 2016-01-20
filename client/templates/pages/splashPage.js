@@ -14,16 +14,16 @@ hideMenu = function(){
 		opacity:0,
 		scale:0,
 	});
-	$('.nav-block h2').css({
+	/*$('.nav-block h2').css({
 		opacity:0,
-	})
+	});*/
 	$('.openingFrame').css({
 		opacity:0,
 		scale:0
 	});
 };
 
-var skip = function(){
+skip = function(){
 	/*
 		Adds skip button functionality, which stops all current animations and replaces
 		with a shorter animation that immediately animates to
@@ -56,7 +56,7 @@ var skip = function(){
 				e: $('.nav-block#b1'), p:{ opacity: 1, scale: 1 }, o: { duration: 2000 }
 			},
 			{
-				e: $('.nav-block.gray-out'), p:{ opacity: .2, scale: 1 }, o: { duration: 1500 }
+				e: $('.nav-block').not("#b1"), p:{ opacity: .2, scale: 1 }, o: { duration: 1500 }
 			},
 			{
 				e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000}
@@ -68,7 +68,7 @@ var skip = function(){
 	});
 };
 
-var replay = function(){
+replay = function(){
 	/*
 		Adds replay button functionality. Returns all elements to their default values
 		and restarts the opening sequence
@@ -80,7 +80,7 @@ var replay = function(){
 	});
 }
 
-var loadSequence = function(){
+loadSequence = function(){
 	/*
 		Defines and executes the opening sequence animations
 	*/
@@ -115,7 +115,7 @@ var loadSequence = function(){
 			e: $('.nav-block#b1'), p:{ opacity: 1, scale: 1 }, o: { duration: 2000 }
 		},
 		{
-			e: $('.gray-out'), p:{ opacity: .2, scale: 1 }, o: { duration: 1500 }
+			e: $('.nav-block').not("#b1"), p:{ opacity: .2, scale: 1 }, o: { duration: 1500 }
 		},
 		{
 			e: $('#replay'), p: { opacity: 1, scale: 1}, o: { duration: 1000}
@@ -128,12 +128,9 @@ var loadSequence = function(){
 }
 
 Template.splashPage.onRendered(function(){
-
-		$('.nav-block').addClass('gray-out');
-		$('#b1').removeClass('gray-out');
-		hideMenu();
+	
 		skip();
 		replay();
-		loadSequence();
+
 
 });

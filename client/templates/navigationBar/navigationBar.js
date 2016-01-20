@@ -288,10 +288,15 @@ centerCheck = function(currentPath) {
 }
 
 Template.navigationBar.onRendered(function () {
+	
+		$('.nav-block').addClass('gray-out');
+		$('#b1').removeClass('gray-out');	
 	  Session.set("progress",[]);
-	  getNavIden($('.nav-block'));
 	  initMenu(5);
-	  $('.gray-out').css("opacity","0");
+	  if (window.location.pathname === "/"){
+		  hideMenu();
+		  loadSequence();
+	  }
 	  watchClick();
 	  watchHover();
 	  $( window ).resize(function() {
