@@ -17,12 +17,12 @@ initMenu = function(n,resize=false){
 		i++;
 	});
 
-	$('.nav-block').addClass('gray-out');
-	$('#b1').removeClass('gray-out');
-
-
-	//if (!resize) //Avoid recentering when calling initMenu due to window resize
-		recenter(n);
+	if (!resize) { //Avoid recentering or altering what is grayed out
+		//when calling initMenu due to window resize	
+		$('.nav-block').addClass('gray-out');
+		$('#b1').removeClass('gray-out');
+		recenter(n,true);
+	}
 	
 };
 
@@ -40,7 +40,7 @@ var disable = function(){
 	}
 }
 
-recenter = function(n){
+recenter = function(n,resize=false){
 	/*
 		Adjusts menu to appropriate center button relative to current URL path
 	*/
@@ -49,7 +49,7 @@ recenter = function(n){
 		if (currentIden !== null){ //handles centering menu when refreshing a routed page
 
 			//Ensure visited menu makes sense for refresh (previously pages are
-			//avaliable to click)
+			//avaliable to click), but do not call when resizing
 			var visited = [];
 			for (var i = 0; i <= currentIden; i++){
 				var toAdd = i+1
@@ -299,7 +299,7 @@ Template.navigationBar.onRendered(function () {
 	  watchClick();
 	  watchHover();
 	  $( window ).resize(function() {
-	  initMenu(5,true);
+	  	initMenu(5,true);
 	  });  
 });
 
