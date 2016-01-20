@@ -64,7 +64,6 @@ nav .nav-block{
     border: 1px solid grey;
 
     transition: border 400ms ease-in;
-    transition: height 300ms;
 }
 nav .nav-block:hover{
     border: 3px solid grey;
@@ -72,7 +71,6 @@ nav .nav-block:hover{
 nav .nav-block.active {
     border: 3px solid black;
     transition: border 600ms ease-in;
-    transition: height 300ms;
 }
 
 
