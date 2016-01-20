@@ -1,4 +1,4 @@
-var hideMenu = function(){
+hideMenu = function(){
 	/*
 		Resets elements on page to default values in preparation of opening 
 		sequence animation
@@ -31,12 +31,12 @@ var skip = function(){
 	*/
 	$('#skip').click(function(){
 
+		$(".velocity-animating").velocity("stop", true);
+
 		$('.openingFrame').css({
 			"opacity":"0",
 			"scale":"0",
 		});
-
-		$(".velocity-animating").velocity("stop", true)
 
 
 		loadingSequence = [

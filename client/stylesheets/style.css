@@ -95,7 +95,7 @@ a.disabled{
   pointer-events:none;
 }
 
-.page {
+.page, .splashPage {
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -146,7 +146,6 @@ a.disabled{
 	position: absolute;
 	top:5%;
 	left:5%;
-  opacity: 0;
 }
 
 #skip:hover,#replay:hover{

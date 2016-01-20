@@ -26,10 +26,25 @@ initMenu = function(n,resize=false){
 	
 };
 
+var disable = function(){
+	/*
+		Disables navbar functions when an animation begins so that overlapping
+		animations do not occur. Re-enabled in the slideMenu function.
+	*/
+	flag = true; //switch flag so that we know an animation is taking place
+	//Disable links while animating
+	var links = document.getElementsByTagName('a');
+	for (var i=0;i<links.length;i++){
+		var current = $(links[i]);
+	   	current.addClass('disabled');
+	}
+}
+
 recenter = function(n){
 	/*
 		Adjusts menu to appropriate center button relative to current URL path
 	*/
+
 		var currentIden = getCurrIden();
 		if (currentIden !== null){ //handles centering menu when refreshing a routed page
 
@@ -44,31 +59,17 @@ recenter = function(n){
 			Session.set("progress",visited);
 
 			//Now do the sliding
-			flag = true; //switch flag so that we know an animation is taking place
-			//Disable links while animating
-			var links = document.getElementsByTagName('a');
-			for (var i=0;i<links.length;i++){
-			var current = $(links[i]);
-			   	current.addClass('disabled');
-			}
+			disable();
 			$('.active').removeClass('active');
 			$('#b'+currentIden).addClass('active'); //since there is no active hard-coded
 			//sets active to current URL so that this recentering is a valid function
-			var distance = currentIden - Math.ceil(n/2);
-			console.log('index is '+distance);
+			var distance = currentIden - Math.ceil(n/2); //move into the center
 			slideMenu(distance,true); //make sliding instant
 
-		}else{ //handles centered menu on Page 1 at splash page
+		}else{ //handles centering at splash page
 			var first = $('#b1');
 			var distance = 1-Math.ceil(n/2);
-			console.log("index=" + distance);
-			flag = true; //switch flag so that we know an animation is taking place
-			//Disable links while animating
-			var links = document.getElementsByTagName('a');
-			for (var i=0;i<links.length;i++){
-			var current = $(links[i]);
-			   	current.addClass('disabled');
-			}
+			disable();
 			$(first).addClass('active');
 			slideMenu(distance,true);
 			$(first).removeClass('active'); //remove active tag so that there is no user 
@@ -84,10 +85,12 @@ slideMenu = function(index, instant = false){
 		over a duration (default 600) or instantly, which is useful in initMenu to create
 		the illusion that the menu was loaded centered on the appropriate page
 	*/
+		//allows the option for sliding to take place instantaneously (default off)
 		var durationTime = 600;
 		if (instant)
 			durationTime = 0;
 		var width = navBoxWidth();
+
 		if (index === 0){
 			//Catches case in which the menu should not slide
 			//Must still set flag to false to allow further sliding and re-enable links
@@ -96,8 +99,7 @@ slideMenu = function(index, instant = false){
 		    for (var i=0;i<links.length;i++){
 		    	var current = $(links[i]);
 		    	current.removeClass('disabled');
-		    }
-			console.log("Sliding finished with flag as " + flag);			
+		    }		
 
 		}else if (index<0) { //if clicked on the left side of the screen
 			Session.set("direction","leftToRight"); //set Session var for page transition
@@ -126,13 +128,11 @@ slideMenu = function(index, instant = false){
 			          //Switches flag back to false so that the next click can be properly executed
 			          flag = false;
 			          //Re-enable clicking
-
-		    		var links = document.getElementsByTagName('a');
-		    		for (var i=0;i<links.length;i++){
+  		    		  var links = document.getElementsByTagName('a');
+		    		  for (var i=0;i<links.length;i++){
 		    			var current = $(links[i]);
 		    			current.removeClass('disabled');
-		    		}
-			          console.log("Sliding finished with flag as " + flag);
+		    		  }  
 
 		        	}
 		     	});
@@ -163,13 +163,11 @@ slideMenu = function(index, instant = false){
 			          //Switches flag back to false so that the next click can be properly executed
 			          flag = false;
 			          //Re-enable clicking
-
-		    		var links = document.getElementsByTagName('a');
-		    		for (var i=0;i<links.length;i++){
+		    		  var links = document.getElementsByTagName('a');
+		    		  for (var i=0;i<links.length;i++){
 		    			var current = $(links[i]);
 		    			current.removeClass('disabled');
-		    		}
-			          console.log("Sliding finished with flag as " + flag);
+		    		  }
 			        }
 		     	});
 		}
@@ -188,28 +186,20 @@ watchClick = function() {//watches clicks on the nav-blocks elements
   		$(document).on('click', '.nav-block', function(){
 	     	
 	    	if (!flag){ //if there is no ongoing animation and thus sliding is valid
+
 	    		//Adds next page to array of already visited pages, unlocks next page 
-				
 				var pageValue = getNavIden($(this));
 				$('#b'+(pageValue+1)).removeClass('gray-out');
 				$('#b'+(pageValue+1)).css("opacity","1");
 				visited = Session.get("progress");
 				if (visited.indexOf(pageValue) === -1){
-					console.log("adding "+pageValue+" to visited");
 					visited.push(pageValue);
 				}
 				Session.set("progress",visited);
 
 				//Now perform the actual sliding
-	    		flag = true; //switch flag so that we know an animation is taking place
-	    		//Disable links while animating
-	    		var links = document.getElementsByTagName('a');
-	    		for (var i=0;i<links.length;i++){
-	    			var current = $(links[i]);
-	    			current.addClass('disabled');
-	    		}
+	    		disable();
 	    		var distance = countPositions(this);
-	     		console.log('index is '+distance);
 	     		$('.nav-block.active').removeClass('active');
 	     		$(this).addClass('active');
 	     		slideMenu(distance);
@@ -262,7 +252,8 @@ watchHover = function() {//watches hover on menu to expand/contract
 	);
 };
 
-getNavIden = function(navObj){
+getNavIden = function(navObj){ //given a nav-block, determines the original index by using the
+	//block's assigned Id. Note that this necessitates the use of nav-block Ids #b1, #b2, etc.
 	var navId = navObj.attr('id');
 	if (navId === undefined)
 		return 0
@@ -270,7 +261,7 @@ getNavIden = function(navObj){
 }
 
 
-getCurrIden = function(){
+getCurrIden = function(){ //gets assigned Id of the current page, used for recentering
 	var currentElem = $('a[href="'+window.location.pathname+'"]');
 	if (window.location.pathname === "/")
 		return null;
@@ -289,23 +280,12 @@ centerCheck = function(currentPath) {
 		//splashMain();
 		//this doesn't work....why?
 
-
-
-
 	}else if (currentIden !== activeIden){ //if there is a mismatch and not to the cover page
 		//Now do the sliding
-		flag = true; //switch flag so that we know an animation is taking place
-		//Disable links while animating
-		var links = document.getElementsByTagName('a');
-		for (var i=0;i<links.length;i++){
-		var current = $(links[i]);
-		   	current.addClass('disabled');
-		}
+		disable();
 		var distance = countPositions($('#b'+currentIden));
-
 		$('.active').removeClass('active');
 		$('#b'+currentIden).addClass('active');
-		console.log('index is '+distance);
 		slideMenu(distance,true); //make sliding instant
 	}
 
