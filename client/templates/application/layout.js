@@ -18,7 +18,7 @@ Template.layout.onRendered(function() {
 			No wrapping around occurs, but that can be easily changed by removing the 
 			specific caught cases
 		*/
-	    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+	    if ($(window).scrollTop() + $(window).height() > $(document).height() + 30) {
 	    	//For when the user has scrolled to the bottom of the current page
 			downScrollCount += 1;
 	    	if (downScrollCount >= 2){
@@ -34,12 +34,13 @@ Template.layout.onRendered(function() {
 				    }
 		    	}
 	    	}
-	    }else if($(window).scrollTop() < -5){
+	    }else if($(window).scrollTop() < -30){
 	    	//For when the user has scrolled to the top of the current page. Technically,
 	    	//the user must scroll PAST the top of the page to trigger this function. This is
 	    	//in place so that this function does not automatically trigger when the user
 	    	//enters a few page (since they will be at the top of the page). The specific
-	    	//degree (-5) is arbitrary, but the current number seemed to work well.
+	    	//degree (-35) is related to the size of the background arrow indicating 
+	    	//scrollability
 	    	upScrollCount += 1;
 	    	if (upScrollCount >= 2){
 		    	var prevPage = $('.active').prev();
@@ -50,6 +51,19 @@ Template.layout.onRendered(function() {
 				    }
 		    	}
 	    	}
+	    }
+
+	    if ($(window).scrollTop() + $(window).height() > $(document).height() ){
+	    	//Make background arrow appear
+	    	$('#down-arrow').velocity({opacity:1},{duration: 1000});
+	    }else if($(window).scrollTop() < 0){
+	    	//Make background arrow appear
+	    	$('#up-arrow').velocity({opacity:1},{duration: 1000});
+	    }else{ 
+	    	//Reset background arrow css
+			$(".velocity-animating").velocity("stop", true);
+	    	$('#down-arrow').css("opacity","0");
+	    	$('#up-arrow').css("opacity","0");
 	    }
 	};
 

@@ -105,6 +105,7 @@ a.disabled{
 
 .splashPage{
   height: 101%;
+  background: white;
 }
 
 #main{
@@ -166,4 +167,24 @@ a.disabled{
   color: white;
   background: gray;
   opacity: .2;
+}
+
+#up-arrow{
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+  opacity: 0;
+}
+
+#down-arrow{
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+  opacity: 0;
 }
