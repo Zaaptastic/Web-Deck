@@ -54,14 +54,19 @@ Template.layout.onRendered(function() {
 	    }
 
 	    if ($(window).scrollTop() + $(window).height() > $(document).height() ){
-	    	//Make background arrow appear
-	    	$('#down-arrow').velocity({opacity:1},{duration: 1000});
+	    	//Make background down-arrow appear if valid
+	    	var nextPage=$('.active').next();
+	    	if (nextPage.is('#b1') === false) //Do not show down-arrow on last page
+	    		$('#down-arrow').velocity({opacity:1},{duration: 1000});
 	    }else if($(window).scrollTop() < 0){
-	    	//Make background arrow appear
-	    	$('#up-arrow').velocity({opacity:1},{duration: 1000});
+	    	//Make background up-arrow appear if valid
+	    	if ($('.active').is('#b1') === false && //Do not show up-arrow on first page
+	    			$('.active').is('.nav-block') === true) //or the cover page
+	    		$('#up-arrow').velocity({opacity:1},{duration: 1000});
 	    }else{ 
 	    	//Reset background arrow css
-			$(".velocity-animating").velocity("stop", true);
+			$("#down-arrow").velocity("stop", true);
+			$("#up-arrow").velocity("stop", true);
 	    	$('#down-arrow').css("opacity","0");
 	    	$('#up-arrow').css("opacity","0");
 	    }
