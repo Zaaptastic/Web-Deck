@@ -5,7 +5,11 @@ Template.layout.onRendered(function() {
 	*/
 
 
-	(function() {        
+	(function() {   
+		/*
+			Sets up debouncer function for scrolling, calling the function to determine
+			page jumps on scroll after the scroll has been completed
+		*/     
 	    var timer;
 	    $(window).bind('scroll',function () {
 	        clearTimeout(timer);
@@ -13,8 +17,7 @@ Template.layout.onRendered(function() {
 	    });
 	    var refresh = function () { 
 	        afterScroll();
-	        console.log('Stopped Scrolling'); 
-    };
+    	};
 	})();
 
 	var afterScroll = function() {
@@ -24,7 +27,7 @@ Template.layout.onRendered(function() {
 			No wrapping around occurs, but that can be easily changed by removing the 
 			specific caught cases
 		*/
-	    if ($(window).scrollTop() + $(window).height() >= $(document).height() +20 ) {
+	    if ($(window).scrollTop() + $(window).height() >= $(document).height() + 20 ) {
 	    	//For when the user has scrolled to the bottom of the current page
 	    	var nextPage = $('.active').next();
 	    	if ($('.active').is('.nav-block') === false){ //Scroll to page 1 from the 
