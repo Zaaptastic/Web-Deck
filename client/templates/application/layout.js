@@ -28,8 +28,10 @@ Template.layout.onRendered(function() {
 	    	//For when the user has scrolled to the bottom of the current page
 	    	var nextPage = $('.active').next();
 	    	if ($('.active').is('.nav-block') === false){ //Scroll to page 1 from the 
-	    		//cover page
+	    		//cover page, and manually set menu to collapsed
 	    		$('#b1').click();
+	    		$('nav').css("height","50px");
+	    		$('nav h2').css("opacity","0");
 	    	}else if (nextPage.is('#b1') === false){ //Do not wrap to first chapter upon reaching the end	        
 				if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
 			        nextPage.click();
