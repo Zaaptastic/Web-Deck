@@ -26,7 +26,7 @@ Template.layout.onRendered(function() {
 		    	if ($('.active').is('.nav-block') === false){ //Scroll to page 1 from the 
 		    		//cover page
 		    		$('#b1').click();
-		    		scrollCount = 0;
+		    		downScrollCount = 0;
 		    	}else if (nextPage.is('#b1') === false){ //Do not wrap to first chapter upon reaching the end	        
 					if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
 				        nextPage.click();
