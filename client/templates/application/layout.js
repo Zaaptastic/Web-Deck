@@ -53,6 +53,10 @@ Template.layout.onRendered(function() {
 	    	}
 	    }
 
+	    /*
+			Controls the appearance/disappearance of the background arrows, communicating
+			that scrolling past the page causes a jump
+	    */
 	    if ($(window).scrollTop() + $(window).height() > $(document).height() ){
 	    	//Make background down-arrow appear if valid
 	    	var nextPage=$('.active').next();

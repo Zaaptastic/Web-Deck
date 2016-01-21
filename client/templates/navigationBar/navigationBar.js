@@ -219,6 +219,9 @@ var watchHover = function() {//watches hover on menu to expand/contract
 
 	$('nav').mouseenter(
 		function(){
+
+			$('nav').velocity("stop", true); //stop current navbar animations to prevent
+			//jumping behavior
 			$('nav').velocity(
 				{
 			       	height: "200px",
@@ -236,6 +239,9 @@ var watchHover = function() {//watches hover on menu to expand/contract
 			);
 		}).mouseleave( 
 		function(){
+
+			$('nav').velocity("stop", true); //stop current navbar animations to prevent
+			//jumping behavior
 			$('nav').velocity(
 				{
 		        	height: "50px",
