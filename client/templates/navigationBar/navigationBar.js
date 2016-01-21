@@ -238,24 +238,25 @@ var watchHover = function() {//watches hover on menu to expand/contract
 			);
 		}).mouseleave( 
 		function(){
-
-			$('nav').velocity("stop", true); //stop current navbar animations to prevent
-			//jumping behavior
-			$('nav').velocity(
-				{
-		        	height: "50px",
-		     	},
-		     	{
-			        delay:0,
-			        duration:200,
-			        easing:"easeOutQuad", 
-			        complete: function() { 	        	
-						$('.nav-block h2').css({
-							opacity:0,
-						});
-			        }
-		     	}
-			);
+			if (getCurrIden() !== null){ //Do not allow collapsing on the splashPage
+				$('nav').velocity("stop", true); //stop current navbar animations to prevent
+				//jumping behavior
+				$('nav').velocity(
+					{
+			        	height: "50px",
+			     	},
+			     	{
+				        delay:0,
+				        duration:200,
+				        easing:"easeOutQuad", 
+				        complete: function() { 	        	
+							$('.nav-block h2').css({
+								opacity:0,
+							});
+				        }
+			     	}
+				);
+			}
 		}
 	);
 };
@@ -274,7 +275,8 @@ var getNavIden = function(navObj){
 
 var getCurrIden = function(){ 
 	/*
-		Gets assigned Id of the current page, used for recentering with centerCheck()
+		Gets assigned Id of the current page, used for recentering with centerCheck().
+		Returns null if not found.
 	*/
 	var currentElem = $('a[href="'+window.location.pathname+'"]');
 	if (window.location.pathname === "/")
