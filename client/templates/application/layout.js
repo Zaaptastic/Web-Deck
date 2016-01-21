@@ -56,8 +56,13 @@ Template.layout.onRendered(function() {
 	    if ($(window).scrollTop() + $(window).height() > $(document).height() ){
 	    	//Make background down-arrow appear if valid
 	    	var nextPage=$('.active').next();
-	    	if (nextPage.is('#b1') === false) //Do not show down-arrow on last page
+	    	if (nextPage.is('#b1') === false) {//Do not show down-arrow on last page
 	    		$('#down-arrow').velocity({opacity:1},{duration: 1000});
+	    		//Also move up the navbar so that it does not overlap with the down-arrow
+	    		var displace = $(window).scrollTop() + $(window).height() - $(document).height();
+	    		displace = displace + "px";
+	    		$('nav').css("bottom",displace);
+	    	}
 	    }else if($(window).scrollTop() < 0){
 	    	//Make background up-arrow appear if valid
 	    	if ($('.active').is('#b1') === false && //Do not show up-arrow on first page
@@ -67,8 +72,10 @@ Template.layout.onRendered(function() {
 	    	//Reset background arrow css
 			$("#down-arrow").velocity("stop", true);
 			$("#up-arrow").velocity("stop", true);
+			$('nav').velocity("stop", true);
 	    	$('#down-arrow').css("opacity","0");
 	    	$('#up-arrow').css("opacity","0");
+	    	$('nav').css("bottom","0px");
 	    }
 	};
 
