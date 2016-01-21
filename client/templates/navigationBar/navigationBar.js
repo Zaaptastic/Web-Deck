@@ -206,7 +206,6 @@ var watchClick = function() {//watches clicks on the nav-blocks elements
 	     		$('.nav-block.active').removeClass('active');
 	     		$(this).addClass('active');
 	     		slideMenu(distance);
-
 	   		}else{
 	      		console.log("Attempted to slide before animation completed");
 	   		}

@@ -12,6 +12,7 @@ Template.layout.onRendered(function() {
 	upScrollCount = 0; 
 
 	window.onscroll = function() {
+		//window.scrollTo(0,+1);
 		/*
 			Advances forward to the next page when scrolled to the bottom of the current page.
 			Also returns to the previous page when scrolled to the top of the current page.
@@ -31,6 +32,7 @@ Template.layout.onRendered(function() {
 					if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
 				        nextPage.click();
 				        downScrollCount = 0;
+				        //window.scrollTo(0,+1);
 				    }
 		    	}
 	    	}
