@@ -336,8 +336,11 @@ Template.navigationBar.onRendered(function () {
 		//On touchscreens, since there is no hover functionality, make the menu a set size
 		//and always show the titles
 		$('nav').addClass('nav-restrict');
+		$('.landscape-prompt').addClass('landscape-restrict');
 		$('.vcenter h2').css("opacity","1");
 		touchscreen = true;
+		console.log(touchscreen);
+		
 	}
 
 	//activates nav button functions

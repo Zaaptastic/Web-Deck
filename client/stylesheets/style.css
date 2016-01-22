@@ -189,7 +189,7 @@ a.disabled{
   opacity: 0;
 }
 
-#landscape-prompt{
+.landscape-prompt{
   display:none;
   position: fixed;
   height: 100%;
@@ -198,10 +198,14 @@ a.disabled{
   font-size: 50px;
 }
 
+.landscape-restrict{ 
+
+}
+
 
 
 @media only screen and (orientation:portrait) and (max-width:450px){
-  #landscape-prompt{
+  .landscape-restrict{
     display:inline;
   }
 }
