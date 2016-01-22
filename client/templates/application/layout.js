@@ -73,7 +73,7 @@ Template.layout.onRendered(function() {
 	    	//Make background down-arrow appear if valid
 	    	var nextPage=$('.active').next();
 	    	if (nextPage.is('#b1') === false) {//Do not show down-arrow on last page
-	    		$('#down-arrow').velocity({opacity:1},{duration: 500});
+	    		$('#down-arrow').velocity({opacity:1,},{duration: 750});
 	    		//Also move up the navbar so that it does not overlap with the down-arrow
 	    		var displace = $(window).scrollTop() + $(window).height() - $(document).height();
 	    		displace = displace + "px";
@@ -83,7 +83,7 @@ Template.layout.onRendered(function() {
 	    	//Make background up-arrow appear if valid
 	    	if ($('.active').is('#b1') === false && //Do not show up-arrow on first page
 	    			$('.active').is('.nav-block') === true) //or the cover page
-	    		$('#up-arrow').velocity({opacity:1},{duration: 500});
+	    		$('#up-arrow').velocity({opacity:1,},{duration: 750});
 	    }else{ 
 	    	reset();
 	    }

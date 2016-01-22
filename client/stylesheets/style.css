@@ -123,19 +123,17 @@ a.disabled{
 .openingFrame{
 	position: absolute;
 	top: 40%;
-	left: 50%;
-  transform: translateY(-50%);
-  transform: translateX(-50%);
+	width: 100%;
+  text-align: center;
   opacity: 0;
 }
 
 #skip{
 	font-size: 20px;
 	position: absolute;
-	top: 50%;
-	left: 50%;
-  transform: translateY(-50%);
-  transform: translateX(-50%);
+	top: 55%;
+	width: 100%;
+  text-align: center;
   opacity:0;
 }
 
@@ -172,8 +170,7 @@ a.disabled{
   text-align: center;
   position: fixed;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
   font-size: 30px;
   opacity: 0;
 }
@@ -182,8 +179,7 @@ a.disabled{
   text-align: center;
   position: fixed;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
   font-size: 30px;
   opacity: 0;
 }
