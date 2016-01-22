@@ -340,6 +340,7 @@ Template.navigationBar.onRendered(function () {
 		if (!touchscreen || (window.matchMedia("(orientation: landscape)").matches)){
 			hideMenu();
 			loadSequence();
+			Session.set("animated",true);
 		}else{
 			//Sets Session variables to support initiating animation upon switching to
 			//landscape

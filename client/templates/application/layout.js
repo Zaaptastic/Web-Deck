@@ -25,39 +25,43 @@ Template.layout.onRendered(function() {
 			Advances forward to the next page when scrolled to the bottom of the current page.
 			Also returns to the previous page when scrolled to the top of the current page.
 			No wrapping around occurs, but that can be easily changed by removing the 
-			specific caught cases
+			specific caught cases.
+
+			Note this is disabled while mobile screens are in portrait orientation
 		*/
-	    if ($(window).scrollTop() + $(window).height() >= $(document).height() + 20 ) {
-	    	//For when the user has scrolled to the bottom of the current page
-	    	var nextPage = $('.active').next();
-	    	if ($('.active').is('.nav-block') === false){ //Scroll to page 1 from the 
-	    		//cover page, and manually set menu to collapsed
-	    		$('#b1').click();
-	    		$('nav').css("height","50px");
-	    		$('nav h2').css("opacity","0");
-	    	}else if (nextPage.is('#b1') === false){ //Do not wrap to first chapter upon reaching the end	        
-				if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
-			        nextPage.click();
-			        reset();
-			    }
-	    	}
-	    	
-	    }else if($(window).scrollTop() <= -20){
-	    	//For when the user has scrolled to the top of the current page. Technically,
-	    	//the user must scroll PAST the top of the page to trigger this function. This is
-	    	//in place so that this function does not automatically trigger when the user
-	    	//enters a few page (since they will be at the top of the page). The specific
-	    	//degree (-35) is related to the size of the background arrow indicating 
-	    	//scrollability
-	    	var prevPage = $('.active').prev();
-	    	if ($('.active').is('#b1') === false){ //Do not wrap to last chapter upon reaching the beginning	        
-				if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
-			        prevPage.click();
-			        reset();
-			    }
-	    	}
-	    	
-	    }
+		if (!touchscreen || (window.matchMedia("(orientation: landscape)").matches)){
+		    if ($(window).scrollTop() + $(window).height() >= $(document).height() + 20 ) {
+		    	//For when the user has scrolled to the bottom of the current page
+		    	var nextPage = $('.active').next();
+		    	if ($('.active').is('.nav-block') === false){ //Scroll to page 1 from the 
+		    		//cover page, and manually set menu to collapsed
+		    		$('#b1').click();
+		    		$('nav').css("height","50px");
+		    		$('nav h2').css("opacity","0");
+		    	}else if (nextPage.is('#b1') === false){ //Do not wrap to first chapter upon reaching the end	        
+					if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
+				        nextPage.click();
+				        reset();
+				    }
+		    	}
+		    	
+		    }else if($(window).scrollTop() <= -20){
+		    	//For when the user has scrolled to the top of the current page. Technically,
+		    	//the user must scroll PAST the top of the page to trigger this function. This is
+		    	//in place so that this function does not automatically trigger when the user
+		    	//enters a few page (since they will be at the top of the page). The specific
+		    	//degree (-35) is related to the size of the background arrow indicating 
+		    	//scrollability
+		    	var prevPage = $('.active').prev();
+		    	if ($('.active').is('#b1') === false){ //Do not wrap to last chapter upon reaching the beginning	        
+					if (flag === false){ //Ensures that only one scroll-induced click occurs at once     
+				        prevPage.click();
+				        reset();
+				    }
+		    	}
+		    	
+		    }
+		}
 	};
 
 	window.onscroll = function(){
