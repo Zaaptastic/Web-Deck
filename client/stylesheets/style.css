@@ -55,23 +55,23 @@ nav {
 }
 
 nav .nav-block{
-    text-align:center;
-    height:100%;
-    position:absolute;
-    bottom:0;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    border: 1px solid grey;
-    font-size: 20px;
-    transition: border 400ms ease-in;
+  text-align:center;
+  height:100%;
+  position:absolute;
+  bottom:0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: 1px solid grey;
+  font-size: 20px;
+  transition: border 400ms ease-in;
 }
 nav .nav-block:hover{
-    border: 3px solid grey;
+  border: 3px solid grey;
 }
 nav .nav-block.active {
-    border: 3px solid black;
-    transition: border 600ms ease-in;
+  border: 3px solid black;
+  transition: border 600ms ease-in;
 }
 
 .vcenter h2{
@@ -80,9 +80,9 @@ nav .nav-block.active {
 
 
 .vcenter {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 a {
@@ -158,7 +158,7 @@ a.disabled{
 	position: fixed;
 	height: 100%;
 	width: 100%;
-
+  background: white;
 }
 
 .gray-out{

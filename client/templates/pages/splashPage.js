@@ -95,7 +95,7 @@ loadSequence = function(){
 			e: $('.nav-block h2'), p: { opacity:1 }, o: { duration : 0 }
 		},
         { 
-        	e: $('#first'), p: { opacity: 1 }, o: { duration: 15000 } 
+        	e: $('#first'), p: { opacity: 1 }, o: { duration: 15000, } 
     	},
         { 
         	e: $('#first'), p: { opacity: 0 }, o: { duration: 0 } 

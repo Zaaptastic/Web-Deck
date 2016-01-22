@@ -50,7 +50,7 @@ Template.layout.onRendered(function() {
 		    	//the user must scroll PAST the top of the page to trigger this function. This is
 		    	//in place so that this function does not automatically trigger when the user
 		    	//enters a few page (since they will be at the top of the page). The specific
-		    	//degree (-35) is related to the size of the background arrow indicating 
+		    	//degree is related to the size of the background arrow indicating 
 		    	//scrollability
 		    	var prevPage = $('.active').prev();
 		    	if ($('.active').is('#b1') === false){ //Do not wrap to last chapter upon reaching the beginning	        
