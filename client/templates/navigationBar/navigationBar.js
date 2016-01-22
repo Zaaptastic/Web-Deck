@@ -215,50 +215,50 @@ var watchClick = function() {//watches clicks on the nav-blocks elements
 };
 
 var watchHover = function() {//watches hover on menu to expand/contract
-
-	$('nav').mouseenter(
-		function(){
-
-			$('nav').velocity("stop", true); //stop current navbar animations to prevent
-			//jumping behavior
-			$('nav').velocity(
-				{
-			       	height: "200px",
-			    },
-			    {
-				    delay:0,
-				    duration:200,
-			        easing:"easeInQuad", 
-			        complete: function() { 
-						$('.nav-block h2').css({
-							opacity:1,
-						});
-			        }
-		     	}
-			);
-		}).mouseleave( 
-		function(){
-			if (getCurrIden() !== null){ //Do not allow collapsing on the splashPage
+	if (!touchscreen){
+		$('nav').mouseenter(
+			function(){
 				$('nav').velocity("stop", true); //stop current navbar animations to prevent
 				//jumping behavior
 				$('nav').velocity(
 					{
-			        	height: "50px",
-			     	},
-			     	{
-				        delay:0,
-				        duration:200,
-				        easing:"easeOutQuad", 
-				        complete: function() { 	        	
+				       	height: "200px",
+				    },
+				    {
+					    delay:0,
+					    duration:200,
+				        easing:"easeInQuad", 
+				        complete: function() { 
 							$('.nav-block h2').css({
-								opacity:0,
+								opacity:1,
 							});
 				        }
 			     	}
 				);
+			}).mouseleave( 
+			function(){
+				if (getCurrIden() !== null){ //Do not allow collapsing on the splashPage
+					$('nav').velocity("stop", true); //stop current navbar animations to prevent
+					//jumping behavior
+					$('nav').velocity(
+						{
+				        	height: "50px",
+				     	},
+				     	{
+					        delay:0,
+					        duration:200,
+					        easing:"easeOutQuad", 
+					        complete: function() { 	        	
+								$('.nav-block h2').css({
+									opacity:0,
+								});
+					        }
+				     	}
+					);
+				}
 			}
-		}
-	);
+		);
+	}
 };
 
 var getNavIden = function(navObj){ 
@@ -313,6 +313,7 @@ Template.navigationBar.onRendered(function () {
 		splashPage initializations for animations are done here so that they do not repeat
 		when splashPage is returned to via the back browser function.
 	*/
+	touchscreen = false; //To customize features if the user has a touchscreen
 	menuSize = 5; //Only place where the number of menu buttons must be hard-coded in
 	//the rest of the code will scale with this varaible
 
@@ -329,9 +330,21 @@ Template.navigationBar.onRendered(function () {
 		hideMenu();
 		loadSequence();
 	}
-	//activats nav button functions
+
+	//Establishes custom styling and functions for mobile sites
+	if ('ontouchstart' in window || /mobile/i.test(navigator.userAgent)) {
+		//On touchscreens, since there is no hover functionality, make the menu a set size
+		//and always show the titles
+		$('nav').addClass('nav-restrict');
+		$('.vcenter h2').css("opacity","1");
+		touchscreen = true;
+	}
+
+	//activates nav button functions
 	watchClick();
 	watchHover();
+
+
 	$( window ).resize(function() {
 		//Allows the menu to be resized with the window, making sure that no movement of the 
 		//menu occurs by passing boolean true to the initMenu function

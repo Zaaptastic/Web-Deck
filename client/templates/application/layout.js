@@ -61,7 +61,6 @@ Template.layout.onRendered(function() {
 	};
 
 	window.onscroll = function(){
-
 	    /*
 			Controls the appearance/disappearance of the background arrows, communicating
 			that scrolling past the page causes a jump

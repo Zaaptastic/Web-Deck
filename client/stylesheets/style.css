@@ -44,7 +44,6 @@ table {
   border-spacing: 0;
 }
 
-
 html,body,nav{
     width:100%;
 }
@@ -74,7 +73,6 @@ nav .nav-block.active {
     border: 3px solid black;
     transition: border 600ms ease-in;
 }
-
 
 .vcenter h2{
   opacity: 0;
@@ -190,3 +188,40 @@ a.disabled{
   font-size: 30px;
   opacity: 0;
 }
+
+#landscape-prompt{
+  display:none;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: white;
+  font-size: 50px;
+}
+
+
+
+@media only screen and (orientation:portrait) and (max-width:450px){
+  #landscape-prompt{
+    display:inline;
+  }
+}
+
+/* Needs to be more specific
+
+@media only screen and (max-width: 1024px){
+  //Must be for touchscreens
+  .vcenter h2{
+    opacity: 1;
+  }
+
+  //Must be for small screens
+  nav {
+    max-height: 50px;
+  }
+}*/
+
+.nav-restrict {
+  max-height: 20%;
+  min-height: 20%;
+}
+
