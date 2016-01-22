@@ -199,30 +199,13 @@ a.disabled{
 }
 
 .landscape-restrict{ 
-
 }
-
-
 
 @media only screen and (orientation:portrait) and (max-width:450px){
   .landscape-restrict{
     display:inline;
   }
 }
-
-/* Needs to be more specific
-
-@media only screen and (max-width: 1024px){
-  //Must be for touchscreens
-  .vcenter h2{
-    opacity: 1;
-  }
-
-  //Must be for small screens
-  nav {
-    max-height: 50px;
-  }
-}*/
 
 .nav-restrict {
   max-height: 20%;

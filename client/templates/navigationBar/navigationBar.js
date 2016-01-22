@@ -303,8 +303,6 @@ centerCheck = function(currentPath) {
 		$('#b'+currentIden).addClass('active');
 		slideMenu(distance,true); //make sliding instant
 	}
-
-
 }
 
 Template.navigationBar.onRendered(function () {
@@ -325,11 +323,6 @@ Template.navigationBar.onRendered(function () {
 	//which pages the user has visited so far in this session
 	initMenu(menuSize); //calls on the initMenu function to give the buttons appropriate
 	//sizes and positions
-	if (window.location.pathname === "/"){
-		//activates the loading sequence if the current page is the splashPage
-		hideMenu();
-		loadSequence();
-	}
 
 	//Establishes custom styling and functions for mobile sites
 	if ('ontouchstart' in window || /mobile/i.test(navigator.userAgent)) {
@@ -339,8 +332,20 @@ Template.navigationBar.onRendered(function () {
 		$('.landscape-prompt').addClass('landscape-restrict');
 		$('.vcenter h2').css("opacity","1");
 		touchscreen = true;
-		console.log(touchscreen);
-		
+	}
+
+	if (window.location.pathname === "/"){
+		//activates the loading sequence if the current page is the splashPage
+		//delays loading if on mobile portrait orientation 
+		if (!touchscreen || (window.matchMedia("(orientation: landscape)").matches)){
+			hideMenu();
+			loadSequence();
+		}else{
+			//Sets Session variables to support initiating animation upon switching to
+			//landscape
+			Session.set("wasP",true);
+			Session.set("animated",false);
+		}
 	}
 
 	//activates nav button functions
@@ -348,10 +353,17 @@ Template.navigationBar.onRendered(function () {
 	watchHover();
 
 
-	$( window ).resize(function() {
+	$(window).resize(function() {
 		//Allows the menu to be resized with the window, making sure that no movement of the 
 		//menu occurs by passing boolean true to the initMenu function
 	  	initMenu(menuSize,true);
+	  	//If applicable, performs the opening animation
+	  	if (Session.get("wasP") && !Session.get("animated")){
+	  		hideMenu();
+	  		loadSequence();
+	  		Session.set("animated",true); //Makes sure starting the opening animation in
+	  		//this way only occurs once
+	  	}
 	});  
 });
 
