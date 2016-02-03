@@ -202,6 +202,12 @@ a.disabled{
   }
 }
 
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
+   .landscape-restrict {
+       display:block;
+   }
+}
+
 .nav-restrict {
   max-height: 20%;
   min-height: 20%;
